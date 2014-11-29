@@ -45,9 +45,5 @@ public class TilesetCreator {
 
         ControlWindow control = new ControlWindow();
         control.show();
-
-        /*
-
-        */
     }
 }

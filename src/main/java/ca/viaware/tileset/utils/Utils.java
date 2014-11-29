@@ -55,21 +55,21 @@ public class Utils {
     }
 
     public static ArrayList<Region> generateRegionsFromGrid(Tileset tileset, int width, int height) {
-    	ArrayList<Region> rectangles = new ArrayList<Region>();
+        ArrayList<Region> rectangles = new ArrayList<Region>();
 
         Rectangle gridConfig = tileset.getGridConfig();
 
-    	for (int x = 0; x < width; x++) {
-    		for (int y = 0; y < height; y++) {
-    			rectangles.add(new Region((x * gridConfig.width) + gridConfig.x, (y * gridConfig.height) + gridConfig.y, gridConfig.width, gridConfig.height, "tile_" + x + "_" + y));
-    		}
-    	}
-    	
-    	return rectangles;
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                rectangles.add(new Region((x * gridConfig.width) + gridConfig.x, (y * gridConfig.height) + gridConfig.y, gridConfig.width, gridConfig.height, "tile_" + x + "_" + y));
+            }
+        }
+
+        return rectangles;
     }
-    
+
     public static Point adjustToNormal(Point p, int scale) {
-    	return new Point(p.x / scale, p.y / scale);
+        return new Point(p.x / scale, p.y / scale);
     }
 
     public static String adjustToWidth(Font font, FontRenderContext context, String string, int width) {
@@ -77,7 +77,7 @@ public class Utils {
         char[] chars = string.toCharArray();
         for (int i = 0; i < chars.length; i++) {
             newString += chars[i];
-            if (font.getStringBounds(newString + "...", context).getWidth() > width && i < chars.length - 1){
+            if (font.getStringBounds(newString + "...", context).getWidth() > width && i < chars.length - 1) {
                 newString += "...";
                 break;
             }
