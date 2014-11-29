@@ -16,25 +16,33 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Project Sierra.  If not, see <http://www.gnu.org/licenses/>.
  */
-package ca.viaware.tileset.gui;
+package ca.viaware.tileset.obj;
 
-import javax.swing.*;
+import java.awt.*;
 
-import java.awt.Dimension;
-import java.awt.event.ActionListener;
+public class Region extends Rectangle {
 
-@SuppressWarnings("serial")
-public class BasicButton extends JButton {
+    private String name;
 
-    public BasicButton(ActionListener e, String actionCommand, String text) {
-        this(text);
-        addActionListener(e);
-        setActionCommand(actionCommand);
+    public Region(int x, int y, int width, int height, String name) {
+        super(x, y, width, height);
+        this.name = name;
     }
 
-    public BasicButton(String text) {
-        super(text);
-        setPreferredSize(new Dimension(180, 30));
+    public Region(int x, int y, int width, int height) {
+        this(x, y, width, height, "REGION");
+    }
+
+    public Region() {
+        this(0, 0, 0, 0);
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
     }
 
 }

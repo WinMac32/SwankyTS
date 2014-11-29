@@ -18,8 +18,9 @@ along with Project Sierra.  If not, see <http://www.gnu.org/licenses/>.
  */
 package ca.viaware.tileset.gui.listeners;
 
-import ca.viaware.tileset.Globals;
-import ca.viaware.tileset.gui.SidebarPanel;
+import ca.viaware.tileset.gui.editor.EditorPanel;
+import ca.viaware.tileset.gui.editor.EditorSidebarPanel;
+import ca.viaware.tileset.obj.Tileset;
 import ca.viaware.tileset.utils.FileUtils;
 import ca.viaware.tileset.utils.Utils;
 
@@ -29,10 +30,14 @@ import java.awt.event.ActionListener;
 
 public class SidebarListener implements ActionListener {
 
-    private SidebarPanel sidebar;
+    private EditorSidebarPanel sidebar;
+    private Tileset tileset;
+    private EditorPanel editor;
 
-    public SidebarListener(SidebarPanel sidebar) {
+    public SidebarListener(Tileset tileset, EditorPanel editor, EditorSidebarPanel sidebar) {
+        this.tileset = tileset;
         this.sidebar = sidebar;
+        this.editor = editor;
     }
 
     @Override
@@ -40,27 +45,23 @@ public class SidebarListener implements ActionListener {
         String cmd = event.getActionCommand();
 
         if (cmd.equals("ENABLE_GRID")) {
-            if (!Globals.isGrid) {
-                Rectangle gridConfig = sidebar.getGridSettings();
-                Utils.setGridConfig(gridConfig.x, gridConfig.y, gridConfig.width, gridConfig.height);
-            } else {
-                Utils.disableGrid();
-            }
+            tileset.setGridConfig(sidebar.getGridSettings());
+            tileset.setAlignToGrid(!tileset.isAlignToGrid());
         }
 
         if (cmd.equals("SHOW_GRID")) {
-            Globals.showingGrid = !Globals.showingGrid;
+            tileset.setShowingGrid(!tileset.isShowingGrid());
         }
 
         if (cmd.equals("GENERATE_REGIONS")) {
-            if (Globals.isGrid) sidebar.getRegions().addAll(Utils.generateRegionsFromGrid(sidebar.getImagePanel().getImageDimensions().width / Utils.getGrid().width, sidebar.getImagePanel().getImageDimensions().height / Utils.getGrid().height));
+            if (tileset.isAlignToGrid()) tileset.getRegions().addAll(Utils.generateRegionsFromGrid(tileset, editor.getImageDimensions().width / tileset.getGridConfig().width, editor.getImageDimensions().height / tileset.getGridConfig().height));
         }
         
         if (cmd.equals("SAVE")) {
-            FileUtils.saveRegions(Globals.dataFile, sidebar.getRegions());
+            FileUtils.saveRegions(tileset.getDataFile(), tileset.getRegions());
         }
 
-        sidebar.getImagePanel().repaint();
+        editor.repaint();
         sidebar.getParent().repaint();
 
     }

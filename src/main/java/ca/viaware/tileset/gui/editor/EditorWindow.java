@@ -16,37 +16,35 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Project Sierra.  If not, see <http://www.gnu.org/licenses/>.
  */
-package ca.viaware.tileset.gui;
+package ca.viaware.tileset.gui.editor;
 
-import ca.viaware.tileset.Region;
+import ca.viaware.tileset.obj.Tileset;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 
 @SuppressWarnings("serial")
-public class RawImageWindow extends JFrame {
+public class EditorWindow extends JFrame {
 
-    private SidebarPanel sidebarPanel;
-    private RawImagePanel imagePanel;
+    private EditorSidebarPanel sidebarPanel;
+    private EditorPanel editor;
 
-    private ArrayList<Region> regions;
+    private Tileset tileset;
 
-    public RawImageWindow(BufferedImage image, ArrayList<Region> regions) {
+    public EditorWindow(Tileset tileset) {
         setTitle("ViaWare Tileset Creator");
         setSize(1200, 1000);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        this.regions = regions;
+        this.tileset = tileset;
         
-        imagePanel = new RawImagePanel(image, regions);
-        sidebarPanel = new SidebarPanel(imagePanel, regions);
+        editor = new EditorPanel(tileset);
+        sidebarPanel = new EditorSidebarPanel(tileset, editor);
 
-        final JScrollPane scroll = new JScrollPane(imagePanel);
+        final JScrollPane scroll = new JScrollPane(editor);
 
         scroll.getViewport().addChangeListener(new ChangeListener() {
             @Override

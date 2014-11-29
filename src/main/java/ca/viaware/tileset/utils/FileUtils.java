@@ -18,7 +18,6 @@ along with Project Sierra.  If not, see <http://www.gnu.org/licenses/>.
  */
 package ca.viaware.tileset.utils;
 
-import java.awt.Rectangle;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -29,7 +28,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import ca.viaware.api.logging.Log;
-import ca.viaware.tileset.Region;
+import ca.viaware.tileset.obj.Region;
 
 public class FileUtils {
 

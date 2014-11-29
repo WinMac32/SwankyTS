@@ -22,15 +22,15 @@ import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.util.ArrayList;
 
-import ca.viaware.tileset.Globals;
-import ca.viaware.tileset.Region;
+import ca.viaware.tileset.obj.Region;
+import ca.viaware.tileset.obj.Tileset;
 
 public class Utils {
 
-    private static Rectangle gridConfig;
+    public static Point adjustToGrid(Tileset tileset, Point point) {
+        if (!tileset.isAlignToGrid()) return point;
 
-    public static Point adjustToGrid(Point point) {
-        if (!Globals.isGrid) return point;
+        Rectangle gridConfig = tileset.getGridConfig();
 
         int newX = point.x - ((point.x - (gridConfig.width / 2)) % gridConfig.width) + (gridConfig.width / 2);
         int newY = point.y - ((point.y - (gridConfig.height / 2)) % gridConfig.height) + (gridConfig.height / 2);
@@ -44,20 +44,6 @@ public class Utils {
         return new Point(newX, newY);
     }
 
-    public static void setGridConfig(int x, int y, int width, int height) {
-        gridConfig = new Rectangle(x, y, width, height);
-        Globals.isGrid = true;
-    }
-
-    public static void disableGrid() {
-        gridConfig = null;
-        Globals.isGrid = false;
-    }
-
-    public static Rectangle getGrid() {
-        return gridConfig;
-    }
-
     public static Region formRegion(Point point1, Point point2, String name) {
         int width = Math.abs(point1.x - point2.x);
         int height = Math.abs(point1.y - point2.y);
@@ -68,9 +54,11 @@ public class Utils {
         return new Region(x, y, width, height, name);
     }
 
-    public static ArrayList<Region> generateRegionsFromGrid(int width, int height) {
+    public static ArrayList<Region> generateRegionsFromGrid(Tileset tileset, int width, int height) {
     	ArrayList<Region> rectangles = new ArrayList<Region>();
-    	
+
+        Rectangle gridConfig = tileset.getGridConfig();
+
     	for (int x = 0; x < width; x++) {
     		for (int y = 0; y < height; y++) {
     			rectangles.add(new Region((x * gridConfig.width) + gridConfig.x, (y * gridConfig.height) + gridConfig.y, gridConfig.width, gridConfig.height, "tile_" + x + "_" + y));

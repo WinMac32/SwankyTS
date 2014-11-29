@@ -19,15 +19,12 @@ along with Project Sierra.  If not, see <http://www.gnu.org/licenses/>.
 package ca.viaware.tileset;
 
 import ca.viaware.api.logging.Log;
-import ca.viaware.tileset.gui.RawImageWindow;
-import ca.viaware.tileset.utils.FileUtils;
+import ca.viaware.tileset.gui.control.ControlWindow;
+import ca.viaware.tileset.obj.Tileset;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 
 public class TilesetCreator {
 
@@ -45,26 +42,12 @@ public class TilesetCreator {
         } catch (UnsupportedLookAndFeelException e1) {
             e1.printStackTrace();
         }
-        
-        JFileChooser chooser = new JFileChooser();
-        chooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
-        if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-            File imageFile = chooser.getSelectedFile();
-            if (imageFile.exists()) {
-                try {
-                    BufferedImage image = ImageIO.read(imageFile);
-                    Log.info("Image is valid...");
-                    Globals.dataFile = new File(imageFile.getParent() + "/" + imageFile.getName().split("[.]")[0] + ".regions");
-                    new RawImageWindow(image, FileUtils.loadRegions(Globals.dataFile)).setVisible(true);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                Log.error("Could not find that image file!");
-            }
-        } else {
-            Log.error("User cancelled.");
-        }
 
+        ControlWindow control = new ControlWindow();
+        control.show();
+
+        /*
+
+        */
     }
 }

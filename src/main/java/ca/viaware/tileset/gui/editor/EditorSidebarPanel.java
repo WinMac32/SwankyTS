@@ -16,36 +16,32 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Project Sierra.  If not, see <http://www.gnu.org/licenses/>.
  */
-package ca.viaware.tileset.gui;
+package ca.viaware.tileset.gui.editor;
 
+import ca.viaware.api.gui.base.VButton;
 import ca.viaware.api.utils.StringUtils;
-import ca.viaware.tileset.Region;
+import ca.viaware.tileset.gui.LabelAndTextPanel;
 import ca.viaware.tileset.gui.listeners.SidebarListener;
+import ca.viaware.tileset.obj.Tileset;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 
 @SuppressWarnings("serial")
-public class SidebarPanel extends JPanel {
+public class EditorSidebarPanel extends JPanel {
 
     private LabelAndTextPanel gridxPanel;
     private LabelAndTextPanel gridyPanel;
     private LabelAndTextPanel gridWidthPanel;
     private LabelAndTextPanel gridHeightPanel;
 
-    private RawImagePanel imagePanel;
-    private ArrayList<Region> regions;
-
-    public SidebarPanel(RawImagePanel imagePanel, ArrayList<Region> regions) {
+    public EditorSidebarPanel(Tileset tileset, EditorPanel editor) {
         //setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setLayout(new FlowLayout(FlowLayout.LEFT));
         this.setPreferredSize(new Dimension(200, 200));
-        this.imagePanel = imagePanel;
-        this.regions = regions;
 
-        add(new BasicButton(new SidebarListener(this), "ENABLE_GRID", "Align to Grid"));
-        add(new BasicButton(new SidebarListener(this), "SHOW_GRID", "Show the Grid"));
+        add(new VButton("Align to Grid", new SidebarListener(tileset, editor, this), "ENABLE_GRID"));
+        add(new VButton("Show the Grid", new SidebarListener(tileset, editor, this), "SHOW_GRID"));
 
         gridxPanel = new LabelAndTextPanel("Grid X", "0");
         gridyPanel = new LabelAndTextPanel("Grid Y", "0");
@@ -57,8 +53,8 @@ public class SidebarPanel extends JPanel {
         add(gridWidthPanel);
         add(gridHeightPanel);
 
-        add(new BasicButton(new SidebarListener(this), "GENERATE_REGIONS", "Generate to Grid"));
-        add(new BasicButton(new SidebarListener(this), "SAVE", "Save"));
+        add(new VButton("Generate to Grid", new SidebarListener(tileset, editor, this), "GENERATE_REGIONS"));
+        add(new VButton("Save", new SidebarListener(tileset, editor, this), "SAVE"));
 
         JTextArea infoArea = new JTextArea();
         infoArea.setPreferredSize(new Dimension(180, 200));
@@ -71,14 +67,6 @@ public class SidebarPanel extends JPanel {
 
         add(infoArea);
 
-    }
-
-    public RawImagePanel getImagePanel() {
-        return imagePanel;
-    }
-
-    public ArrayList<Region> getRegions() {
-        return regions;
     }
 
     public Rectangle getGridSettings() {
