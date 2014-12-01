@@ -16,7 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Project Sierra.  If not, see <http://www.gnu.org/licenses/>.
  */
-package ca.viaware.tileset.gui.editor;
+package ca.viaware.tileset.gui.editor.panel;
 
 import ca.viaware.api.gui.base.VButton;
 import ca.viaware.api.utils.StringUtils;
@@ -35,10 +35,9 @@ public class EditorSidebarPanel extends JPanel {
     private LabelAndTextPanel gridWidthPanel;
     private LabelAndTextPanel gridHeightPanel;
 
-    public EditorSidebarPanel(Tileset tileset, EditorPanel editor) {
-        //setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+    public EditorSidebarPanel(Tileset tileset, EditorGraphicsPanel editor) {
         setLayout(new FlowLayout(FlowLayout.LEFT));
-        this.setPreferredSize(new Dimension(200, 200));
+        this.setPreferredSize(new Dimension(210, 200));
 
         add(new VButton("Align to Grid", new SidebarListener(tileset, editor, this), "ENABLE_GRID"));
         add(new VButton("Show the Grid", new SidebarListener(tileset, editor, this), "SHOW_GRID"));
@@ -63,7 +62,7 @@ public class EditorSidebarPanel extends JPanel {
         infoArea.setText("Keybinds:\n" +
                 "Ctrl-click: Delete region\n" +
                 "Ctrl-drag: Delete regions\n" +
-                "Shift-click: Rename region");
+                "Alt-click: Rename region");
 
         add(infoArea);
 

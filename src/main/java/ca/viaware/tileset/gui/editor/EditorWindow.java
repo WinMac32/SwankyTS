@@ -18,44 +18,30 @@ along with Project Sierra.  If not, see <http://www.gnu.org/licenses/>.
  */
 package ca.viaware.tileset.gui.editor;
 
+import ca.viaware.tileset.gui.editor.panel.EditorPanel;
 import ca.viaware.tileset.obj.Tileset;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import java.awt.*;
 
 @SuppressWarnings("serial")
 public class EditorWindow extends JFrame {
 
-    private EditorSidebarPanel sidebarPanel;
+    private Tileset tileset;
     private EditorPanel editor;
 
-    private Tileset tileset;
-
     public EditorWindow(Tileset tileset) {
+        this.tileset = tileset;
+
         setTitle("ViaWare Tileset Creator");
         setSize(1200, 1000);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        this.tileset = tileset;
-        
-        editor = new EditorPanel(tileset);
-        sidebarPanel = new EditorSidebarPanel(tileset, editor);
+        getContentPane().setLayout(new BorderLayout());
 
-        final JScrollPane scroll = new JScrollPane(editor);
-
-        scroll.getViewport().addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent changeEvent) {
-                //Linux fix
-                scroll.repaint();
-            }
-        });
-
-        add(sidebarPanel, BorderLayout.LINE_START);
-        add(scroll, BorderLayout.CENTER);
+        this.editor = new EditorPanel(tileset);
+        getContentPane().add(editor, BorderLayout.CENTER);
     }
 
 }

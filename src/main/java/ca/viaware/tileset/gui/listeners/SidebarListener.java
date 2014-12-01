@@ -18,13 +18,12 @@ along with Project Sierra.  If not, see <http://www.gnu.org/licenses/>.
  */
 package ca.viaware.tileset.gui.listeners;
 
-import ca.viaware.tileset.gui.editor.EditorPanel;
-import ca.viaware.tileset.gui.editor.EditorSidebarPanel;
+import ca.viaware.tileset.gui.editor.panel.EditorGraphicsPanel;
+import ca.viaware.tileset.gui.editor.panel.EditorSidebarPanel;
 import ca.viaware.tileset.obj.Tileset;
 import ca.viaware.tileset.utils.FileUtils;
 import ca.viaware.tileset.utils.Utils;
 
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -32,9 +31,9 @@ public class SidebarListener implements ActionListener {
 
     private EditorSidebarPanel sidebar;
     private Tileset tileset;
-    private EditorPanel editor;
+    private EditorGraphicsPanel editor;
 
-    public SidebarListener(Tileset tileset, EditorPanel editor, EditorSidebarPanel sidebar) {
+    public SidebarListener(Tileset tileset, EditorGraphicsPanel editor, EditorSidebarPanel sidebar) {
         this.tileset = tileset;
         this.sidebar = sidebar;
         this.editor = editor;
