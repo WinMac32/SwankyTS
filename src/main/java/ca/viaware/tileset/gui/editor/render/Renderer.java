@@ -18,28 +18,32 @@ along with Project Sierra.  If not, see <http://www.gnu.org/licenses/>.
  */
 package ca.viaware.tileset.gui.editor.render;
 
+import ca.viaware.tileset.gui.editor.panel.EditorGraphicsPanel;
 import ca.viaware.tileset.obj.Region;
 import ca.viaware.tileset.obj.Tileset;
 import ca.viaware.tileset.utils.Utils;
+import ca.viaware.tileset.gui.editor.mouse.MouseInfo;
 
 import java.awt.*;
 
 public class Renderer {
 
     private Tileset tileset;
+    private MouseInfo mouseInfo;
+    private EditorGraphicsPanel graphicsPanel;
+    private Viewport viewport;
+
     private Graphics2D g2d;
 
-    private int width;
-    private int height;
-    private int zoom;
-
-    public Renderer(Tileset tileset, Graphics2D g2d, int width, int height, int zoom) {
+    public Renderer(Tileset tileset, MouseInfo mouseInfo, EditorGraphicsPanel graphicsPanel, Viewport viewport) {
         this.tileset = tileset;
-        this.g2d = g2d;
+        this.mouseInfo = mouseInfo;
+        this.graphicsPanel = graphicsPanel;
+        this.viewport = viewport;
+    }
 
-        this.width = width;
-        this.height = height;
-        this.zoom = zoom;
+    public void setContext(Graphics2D g2d) {
+        this.g2d = g2d;
     }
 
     public void renderGrid() {
@@ -49,25 +53,63 @@ public class Renderer {
             int gridWidth = tileset.getGridConfig().width;
             int gridHeight = tileset.getGridConfig().height;
 
+            int width = graphicsPanel.getPreferredSize().width;
+            int height = graphicsPanel.getPreferredSize().height;
+            int zoom = mouseInfo.getZoomLevel();
+
             g2d.setPaint(Color.GREEN);
 
             for (int i = 0; i < (width / (gridWidth * zoom)); i++) {
                 int x = i * (gridWidth * zoom) + (gridX * zoom);
-                g2d.drawLine(x, 0, x, height);
+                renderLine(x, 0, x, height);
             }
 
             for (int i = 0; i < (height / (gridHeight * zoom)); i++) {
                 int y = i * (gridHeight * zoom) + (gridY * zoom);
-                g2d.drawLine(0, y, width, y);
+                renderLine(0, y, width, y);
             }
         }
     }
 
     public void renderRegions() {
+        int zoom = mouseInfo.getZoomLevel();
+        g2d.setPaint(Color.WHITE);
         for (Region region : tileset.getRegions()) {
-            g2d.drawRect(region.x * zoom, region.y * zoom, region.width * zoom, region.height * zoom);
+            renderRect(region);
             g2d.drawString(Utils.adjustToWidth(g2d.getFont(), g2d.getFontRenderContext(), region.getName(), region.width * zoom), region.x * zoom, region.y * zoom + g2d.getFontMetrics().getHeight());
         }
     }
+
+    public void renderImage() {
+        Rectangle orig = new Rectangle(0, 0, tileset.getImage().getWidth(), tileset.getImage().getHeight());
+        Rectangle transformed = viewport.transformToViewport(orig);
+        g2d.drawImage(tileset.getImage(), transformed.x, transformed.y, transformed.width, transformed.height, graphicsPanel);
+    }
+
+    public void renderSelection() {
+        if (mouseInfo.isMouseDown()) {
+            g2d.setPaint(Color.RED);
+            Rectangle rect = Utils.formRegion(mouseInfo.getMouseDownPoint(), mouseInfo.getMouseUpPoint(), "");
+            renderRect(viewport.transformFromViewport(rect));
+        }
+    }
+
+    public void renderRect(Rectangle rect) {
+        int zoom = mouseInfo.getZoomLevel();
+        rect = viewport.transformToViewport(rect);
+        g2d.drawRect(rect.x * zoom, rect.y * zoom, rect.width * zoom, rect.height * zoom);
+    }
+
+    public void renderLine(int x1, int y1, int x2, int y2) {
+        Point p1 = viewport.transformToViewport(new Point(x1, y1));
+        Point p2 = viewport.transformToViewport(new Point(x2, y2));
+        g2d.drawLine(p1.x, p1.y, p2.x, p2.y);
+    }
+
+    public void renderString(int x, int y) {
+
+    }
+
+
 
 }

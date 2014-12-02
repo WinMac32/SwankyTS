@@ -14,7 +14,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with Project Sierra.  If not, see <http://www.gnu.org/licenses/>.
+along with SwankyTS.  If not, see <http://www.gnu.org/licenses/>.
  */
 package ca.viaware.tileset.gui.editor.panel;
 
@@ -38,19 +38,9 @@ public class EditorPanel extends JPanel {
         this.editor = new EditorGraphicsPanel(tileset);
         this.sidebarPanel = new EditorSidebarPanel(tileset, editor);
 
-        final JScrollPane scroll = new JScrollPane(editor);
-
-        scroll.getViewport().addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent changeEvent) {
-                //Linux fix
-                scroll.repaint();
-            }
-        });
-
         setLayout(new BorderLayout());
         add(sidebarPanel, BorderLayout.LINE_START);
-        add(scroll, BorderLayout.CENTER);
+        add(editor, BorderLayout.CENTER);
     }
 
 }

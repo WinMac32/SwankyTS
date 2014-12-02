@@ -14,11 +14,13 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with Project Sierra.  If not, see <http://www.gnu.org/licenses/>.
+along with SwankyTS.  If not, see <http://www.gnu.org/licenses/>.
  */
 package ca.viaware.tileset.gui.editor.mouse;
 
+import ca.viaware.api.logging.Log;
 import ca.viaware.tileset.gui.editor.panel.EditorGraphicsPanel;
+import ca.viaware.tileset.gui.editor.render.Viewport;
 import ca.viaware.tileset.obj.Tileset;
 import ca.viaware.tileset.utils.Utils;
 
@@ -28,26 +30,36 @@ import java.awt.event.MouseMotionListener;
 
 public class EditorMouseMotionListener implements MouseMotionListener {
 
-    private EditorGraphicsPanel owner;
+    private EditorGraphicsPanel graphicsPanel;
     private Tileset tileset;
     private MouseInfo mouseInfo;
+    private Viewport viewport;
 
-    public EditorMouseMotionListener(Tileset tileset, EditorGraphicsPanel owner, MouseInfo mouseInfo) {
+    public EditorMouseMotionListener(Tileset tileset, EditorGraphicsPanel graphicsPanel, MouseInfo mouseInfo, Viewport viewport) {
         this.tileset = tileset;
-        this.owner = owner;
+        this.graphicsPanel = graphicsPanel;
         this.mouseInfo = mouseInfo;
+        this.viewport = viewport;
     }
 
     @Override
     public void mouseDragged(MouseEvent mouseEvent) {
         if ((mouseEvent.getModifiersEx() & MouseEvent.CTRL_DOWN_MASK) == MouseEvent.CTRL_DOWN_MASK) {
-            owner.deleteRectAt(mouseEvent.getPoint());
+            graphicsPanel.deleteRectAt(mouseEvent.getPoint());
         } else if ((mouseEvent.getModifiersEx() & MouseEvent.SHIFT_DOWN_MASK) == MouseEvent.SHIFT_DOWN_MASK) {
             //TODO Drag image around
+            if (mouseInfo.getLastDrag() != null) {
+                int dx = mouseInfo.getLastDrag().x - mouseEvent.getPoint().x;
+                int dy = mouseInfo.getLastDrag().y - mouseEvent.getPoint().y;
+                viewport.x = viewport.x - dx;
+                viewport.y = viewport.y - dy;
+                graphicsPanel.repaint();
+            }
+            mouseInfo.setLastDrag(mouseEvent.getPoint());
         } else {
-            mouseInfo.setMouseUpPoint(owner.confine(Utils.adjustToGrid(tileset, Utils.adjustToNormal(new Point(mouseEvent.getX(), mouseEvent.getY()), owner.getZoomlevel()))));
-            owner.repaint();
-            owner.getParent().repaint();
+            mouseInfo.setMouseUpPoint(tileset.confine(Utils.adjustToGrid(tileset, Utils.adjustToNormal(new Point(mouseEvent.getX(), mouseEvent.getY()), mouseInfo.getZoomLevel()))));
+            graphicsPanel.repaint();
+            graphicsPanel.getParent().repaint();
         }
     }
 

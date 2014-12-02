@@ -14,7 +14,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with Project Sierra.  If not, see <http://www.gnu.org/licenses/>.
+along with SwankyTS.  If not, see <http://www.gnu.org/licenses/>.
  */
 package ca.viaware.tileset;
 
@@ -29,7 +29,7 @@ import java.io.File;
 public class TilesetCreator {
 
     public static void main(String[] args) {
-        Log.info("Running ViaWare tileset creator");
+        Log.info("Running SwankyTS");
 
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());

@@ -14,7 +14,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with Project Sierra.  If not, see <http://www.gnu.org/licenses/>.
+along with SwankyTS.  If not, see <http://www.gnu.org/licenses/>.
  */
 package ca.viaware.tileset.gui.editor.panel;
 
@@ -59,10 +59,13 @@ public class EditorSidebarPanel extends JPanel {
         infoArea.setPreferredSize(new Dimension(180, 200));
         infoArea.setEditable(false);
 
+        infoArea.setFont(infoArea.getFont().deriveFont(8));
+
         infoArea.setText("Keybinds:\n" +
                 "Ctrl-click: Delete region\n" +
                 "Ctrl-drag: Delete regions\n" +
-                "Alt-click: Rename region");
+                "Alt-click: Rename region\n" +
+                "Shift-drag: Pan camera");
 
         add(infoArea);
 

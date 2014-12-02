@@ -14,7 +14,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with Project Sierra.  If not, see <http://www.gnu.org/licenses/>.
+along with SwankyTS.  If not, see <http://www.gnu.org/licenses/>.
  */
 package ca.viaware.tileset.gui.editor.mouse;
 
@@ -25,11 +25,15 @@ public class MouseInfo {
     private boolean mouseDown;
     private Point mouseDownPoint;
     private Point mouseUpPoint;
+    private int zoomLevel;
+
+    private Point lastDrag;
 
     public MouseInfo() {
         this.mouseDown = false;
         this.mouseDownPoint = new Point(0,0);
         this.mouseUpPoint = new Point(0,0);
+        this.zoomLevel = 1;
     }
 
     public boolean isMouseDown() {
@@ -54,5 +58,21 @@ public class MouseInfo {
 
     public void setMouseUpPoint(Point mouseUpPoint) {
         this.mouseUpPoint = mouseUpPoint;
+    }
+
+    public int getZoomLevel() {
+        return zoomLevel;
+    }
+
+    public void setZoomLevel(int zoomLevel) {
+        this.zoomLevel = zoomLevel < 1 ? 1 : zoomLevel;
+    }
+
+    public Point getLastDrag() {
+        return lastDrag;
+    }
+
+    public void setLastDrag(Point lastDrag) {
+        this.lastDrag = lastDrag;
     }
 }

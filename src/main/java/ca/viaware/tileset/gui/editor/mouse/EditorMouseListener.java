@@ -14,7 +14,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with Project Sierra.  If not, see <http://www.gnu.org/licenses/>.
+along with SwankyTS.  If not, see <http://www.gnu.org/licenses/>.
  */
 package ca.viaware.tileset.gui.editor.mouse;
 
@@ -44,7 +44,7 @@ public class EditorMouseListener implements MouseListener {
     public void mouseClicked(MouseEvent mouseEvent) {
         if ((mouseEvent.getModifiersEx() & MouseEvent.CTRL_DOWN_MASK) == MouseEvent.CTRL_DOWN_MASK) {
             for (int i = tileset.getRegions().size() - 1; i >= 0; i--) {
-                if (tileset.getRegions().get(i).contains(Utils.adjustToNormal(mouseEvent.getPoint(), owner.getZoomlevel()))) {
+                if (tileset.getRegions().get(i).contains(Utils.adjustToNormal(mouseEvent.getPoint(), mouseInfo.getZoomLevel()))) {
                     tileset.getRegions().remove(i);
                     owner.repaint();
                     break;
@@ -52,7 +52,7 @@ public class EditorMouseListener implements MouseListener {
             }
         } else if ((mouseEvent.getModifiersEx() & MouseEvent.ALT_DOWN_MASK) == MouseEvent.ALT_DOWN_MASK) {
             for (Region region : tileset.getRegions()) {
-                if (region.contains(Utils.adjustToNormal(mouseEvent.getPoint(), owner.getZoomlevel()))) {
+                if (region.contains(Utils.adjustToNormal(mouseEvent.getPoint(), mouseInfo.getZoomLevel()))) {
                     String newName = JOptionPane.showInputDialog(owner.getParent(), "Enter new region name", region.getName());
                     if (newName != null) {
                         region.setName(newName);
@@ -68,7 +68,7 @@ public class EditorMouseListener implements MouseListener {
     public void mousePressed(MouseEvent mouseEvent) {
         if ((mouseEvent.getModifiersEx() & (MouseEvent.CTRL_DOWN_MASK | MouseEvent.SHIFT_DOWN_MASK)) == 0) {
             mouseInfo.setMouseDown(true);
-            mouseInfo.setMouseDownPoint(owner.confine(Utils.adjustToGrid(tileset, Utils.adjustToNormal(new Point(mouseEvent.getX(), mouseEvent.getY()), owner.getZoomlevel()))));
+            mouseInfo.setMouseDownPoint(tileset.confine(Utils.adjustToGrid(tileset, Utils.adjustToNormal(new Point(mouseEvent.getX(), mouseEvent.getY()), mouseInfo.getZoomLevel()))));
         }
     }
 
@@ -76,7 +76,7 @@ public class EditorMouseListener implements MouseListener {
     public void mouseReleased(MouseEvent mouseEvent) {
         if (mouseInfo.isMouseDown()) {
             mouseInfo.setMouseDown(false);
-            mouseInfo.setMouseUpPoint(owner.confine(Utils.adjustToGrid(tileset, Utils.adjustToNormal(new Point(mouseEvent.getX(), mouseEvent.getY()), owner.getZoomlevel()))));
+            mouseInfo.setMouseUpPoint(tileset.confine(Utils.adjustToGrid(tileset, Utils.adjustToNormal(new Point(mouseEvent.getX(), mouseEvent.getY()), mouseInfo.getZoomLevel()))));
             if (Math.abs(mouseInfo.getMouseUpPoint().x - mouseInfo.getMouseDownPoint().x) > 1 && Math.abs(mouseInfo.getMouseUpPoint().y - mouseInfo.getMouseDownPoint().y) > 1) {
                 String name = JOptionPane.showInputDialog(owner.getParent(), "Enter region name", "REGION");
                 if (name != null) {
@@ -85,6 +85,7 @@ public class EditorMouseListener implements MouseListener {
             }
             owner.repaint();
         }
+        mouseInfo.setLastDrag(null);
     }
 
     @Override
