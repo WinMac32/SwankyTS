@@ -18,7 +18,6 @@ along with SwankyTS.  If not, see <http://www.gnu.org/licenses/>.
  */
 package ca.viaware.tileset.gui.editor.mouse;
 
-import ca.viaware.api.logging.Log;
 import ca.viaware.tileset.gui.editor.panel.EditorGraphicsPanel;
 import ca.viaware.tileset.gui.editor.render.Viewport;
 import ca.viaware.tileset.obj.Tileset;
@@ -57,7 +56,7 @@ public class EditorMouseMotionListener implements MouseMotionListener {
             }
             mouseInfo.setLastDrag(mouseEvent.getPoint());
         } else {
-            mouseInfo.setMouseUpPoint(tileset.confine(Utils.adjustToGrid(tileset, Utils.adjustToNormal(new Point(mouseEvent.getX(), mouseEvent.getY()), mouseInfo.getZoomLevel()))));
+            mouseInfo.setMouseUpPoint(tileset.confine(tileset.adjustToGrid(viewport.screenToOrigin(new Point(mouseEvent.getX(), mouseEvent.getY())))));
             graphicsPanel.repaint();
             graphicsPanel.getParent().repaint();
         }

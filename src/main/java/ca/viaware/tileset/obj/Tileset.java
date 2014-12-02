@@ -110,4 +110,21 @@ public class Tileset {
         int h = getImage().getHeight();
         return new Point((p.x > w ? w : (p.x < 0 ? 0 : p.x)), (p.y > h ? h : (p.y < 0 ? 0 : p.y)));
     }
+
+    public Point adjustToGrid(Point point) {
+        if (!isAlignToGrid()) return point;
+
+        Rectangle gridConfig = getGridConfig();
+
+        int newX = point.x - ((point.x - (gridConfig.width / 2)) % gridConfig.width) + (gridConfig.width / 2);
+        int newY = point.y - ((point.y - (gridConfig.height / 2)) % gridConfig.height) + (gridConfig.height / 2);
+
+        if (point.x < gridConfig.width) newX = 0;
+        if (point.y < gridConfig.height) newY = 0;
+
+        newX += gridConfig.x;
+        newY += gridConfig.y;
+
+        return new Point(newX, newY);
+    }
 }

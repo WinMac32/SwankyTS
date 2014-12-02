@@ -4,7 +4,6 @@ import ca.viaware.tileset.gui.editor.panel.EditorGraphicsPanel;
 import ca.viaware.tileset.gui.editor.render.Viewport;
 import ca.viaware.tileset.obj.Tileset;
 
-import java.awt.*;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 
@@ -29,8 +28,8 @@ public class EditorMouseWheelListener implements MouseWheelListener {
 
         //TODO Scale around mouse pointer
 
-        viewport.width = viewport.getOrigWidth() / mouseInfo.getZoomLevel();
-        viewport.height = viewport.getOrigHeight() / mouseInfo.getZoomLevel();
+        viewport.width = viewport.getViewWidth() / mouseInfo.getZoomLevel();
+        viewport.height = viewport.getViewHeight() / mouseInfo.getZoomLevel();
 
         graphicsPanel.repaint();
     }

@@ -18,8 +18,8 @@ public class GraphicsPanelComponentListener implements ComponentListener {
 
     @Override
     public void componentResized(ComponentEvent e) {
-        viewport.setOrigWidth(graphicsPanel.getWidth());
-        viewport.setOrigHeight(graphicsPanel.getHeight());
+        viewport.setViewWidth(graphicsPanel.getWidth());
+        viewport.setViewHeight(graphicsPanel.getHeight());
         graphicsPanel.repaint();
     }
 

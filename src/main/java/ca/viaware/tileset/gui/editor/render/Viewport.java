@@ -1,6 +1,5 @@
 package ca.viaware.tileset.gui.editor.render;
 
-import ca.viaware.api.logging.Log;
 import ca.viaware.tileset.gui.editor.panel.EditorGraphicsPanel;
 
 import java.awt.*;
@@ -9,57 +8,52 @@ public class Viewport extends Rectangle {
 
     private EditorGraphicsPanel graphicsPanel;
 
-    private int origHeight;
-    private int origWidth;
+    private int viewHeight;
+    private int viewWidth;
 
     public Viewport(int x, int y, int width, int height, EditorGraphicsPanel graphicsPanel) {
         super(x, y, width, height);
-        this.origWidth = width;
-        this.origHeight = height;
+        this.viewWidth = width;
+        this.viewHeight = height;
         this.graphicsPanel = graphicsPanel;
     }
 
-    public void setOrigHeight(int origHeight) {
-        this.origHeight = origHeight;
+    public void setViewHeight(int viewHeight) {
+        this.viewHeight = viewHeight;
     }
 
-    public int getOrigHeight() {
-        return origHeight;
+    public int getViewHeight() {
+        return viewHeight;
     }
 
-    public void setOrigWidth(int origWidth) {
-        this.origWidth = origWidth;
+    public void setViewWidth(int viewWidth) {
+        this.viewWidth = viewWidth;
     }
 
 
-    public int getOrigWidth() {
-        return origWidth;
+    public int getViewWidth() {
+        return viewWidth;
     }
 
-    public Point transformToViewport(Point p) {
-        return new Point((int)((double)p.x * widthScaleRatio() + (double)this.x), (int)((double)p.y * heightScaleRatio() + (double)this.y));
+    public Point originToScreen(Point p) {
+        return new Point((int)(p.x * widthScaleRatio() + this.x), (int)(p.y * heightScaleRatio() + this.y));
     }
 
-    public Rectangle transformToViewport(Rectangle rect) {
-        Point newPoint = transformToViewport(new Point(rect.x, rect.y));
+    public Rectangle originToScreen(Rectangle rect) {
+        Point newPoint = originToScreen(new Point(rect.x, rect.y));
         return new Rectangle(newPoint.x, newPoint.y, (int)(rect.getWidth() * widthScaleRatio()), (int)(rect.getHeight() * heightScaleRatio()));
     }
 
-    public Point transformFromViewport(Point p) {
-        return new Point((int)((double)(p.x - this.x) / widthScaleRatio()), (int)((double)(p.y - this.y) / heightScaleRatio()));
-    }
-
-    public Rectangle transformFromViewport(Rectangle rect) {
-        Point newPoint = transformFromViewport(new Point(rect.x, rect.y));
-        return new Rectangle(newPoint.x, newPoint.y, (int)(rect.getWidth() / widthScaleRatio()), (int)(rect.getHeight() / heightScaleRatio()));
+    public Point screenToOrigin(Point p) {
+        return new Point((int)((p.x - this.x + (widthScaleRatio() / 2)) / widthScaleRatio()), (int)((p.y - this.y + (heightScaleRatio() / 2)) / heightScaleRatio()));
     }
 
     private double widthScaleRatio() {
-        return (double)getOrigWidth() / getWidth();
+        return (double) getViewWidth() / getWidth();
     }
 
     private double heightScaleRatio() {
-        return (double)getOrigHeight() / getHeight();
+        return (double) getViewHeight() / getHeight();
     }
 
 }

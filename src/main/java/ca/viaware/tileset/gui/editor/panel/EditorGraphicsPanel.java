@@ -47,7 +47,7 @@ public class EditorGraphicsPanel extends JPanel {
         this.mouseInfo = new MouseInfo();
         this.renderer = new Renderer(tileset, mouseInfo, this, viewport);
 
-        addMouseListener(new EditorMouseListener(tileset, this, mouseInfo));
+        addMouseListener(new EditorMouseListener(tileset, this, mouseInfo, viewport));
         addMouseMotionListener(new EditorMouseMotionListener(tileset, this, mouseInfo, viewport));
         addMouseWheelListener(new EditorMouseWheelListener(tileset, this, mouseInfo, viewport));
         addComponentListener(new GraphicsPanelComponentListener(viewport, this));
@@ -61,7 +61,7 @@ public class EditorGraphicsPanel extends JPanel {
 
     public void deleteRectAt(Point p) {
         for (int i = tileset.getRegions().size() - 1; i >= 0; i--) {
-            if (tileset.getRegions().get(i).contains(Utils.adjustToNormal(p, mouseInfo.getZoomLevel()))) {
+            if (tileset.getRegions().get(i).contains(p)) {
                 tileset.getRegions().remove(i);
                 repaint();
                 break;

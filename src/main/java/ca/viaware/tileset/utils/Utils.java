@@ -27,23 +27,6 @@ import ca.viaware.tileset.obj.Tileset;
 
 public class Utils {
 
-    public static Point adjustToGrid(Tileset tileset, Point point) {
-        if (!tileset.isAlignToGrid()) return point;
-
-        Rectangle gridConfig = tileset.getGridConfig();
-
-        int newX = point.x - ((point.x - (gridConfig.width / 2)) % gridConfig.width) + (gridConfig.width / 2);
-        int newY = point.y - ((point.y - (gridConfig.height / 2)) % gridConfig.height) + (gridConfig.height / 2);
-
-        if (point.x < gridConfig.width) newX = 0;
-        if (point.y < gridConfig.height) newY = 0;
-
-        newX += gridConfig.x;
-        newY += gridConfig.y;
-
-        return new Point(newX, newY);
-    }
-
     public static Region formRegion(Point point1, Point point2, String name) {
         int width = Math.abs(point1.x - point2.x);
         int height = Math.abs(point1.y - point2.y);

@@ -19,6 +19,7 @@ along with SwankyTS.  If not, see <http://www.gnu.org/licenses/>.
 package ca.viaware.tileset.gui.editor.mouse;
 
 import ca.viaware.tileset.gui.editor.panel.EditorGraphicsPanel;
+import ca.viaware.tileset.gui.editor.render.Viewport;
 import ca.viaware.tileset.obj.Region;
 import ca.viaware.tileset.obj.Tileset;
 import ca.viaware.tileset.utils.Utils;
@@ -33,18 +34,20 @@ public class EditorMouseListener implements MouseListener {
     private Tileset tileset;
     private EditorGraphicsPanel owner;
     private MouseInfo mouseInfo;
+    private Viewport viewport;
 
-    public EditorMouseListener(Tileset tileset, EditorGraphicsPanel owner, MouseInfo mouseInfo) {
+    public EditorMouseListener(Tileset tileset, EditorGraphicsPanel owner, MouseInfo mouseInfo, Viewport viewport) {
         this.tileset = tileset;
         this.owner = owner;
         this.mouseInfo = mouseInfo;
+        this.viewport = viewport;
     }
 
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
         if ((mouseEvent.getModifiersEx() & MouseEvent.CTRL_DOWN_MASK) == MouseEvent.CTRL_DOWN_MASK) {
             for (int i = tileset.getRegions().size() - 1; i >= 0; i--) {
-                if (tileset.getRegions().get(i).contains(Utils.adjustToNormal(mouseEvent.getPoint(), mouseInfo.getZoomLevel()))) {
+                if (tileset.getRegions().get(i).contains(mouseEvent.getPoint())) {
                     tileset.getRegions().remove(i);
                     owner.repaint();
                     break;
@@ -52,7 +55,7 @@ public class EditorMouseListener implements MouseListener {
             }
         } else if ((mouseEvent.getModifiersEx() & MouseEvent.ALT_DOWN_MASK) == MouseEvent.ALT_DOWN_MASK) {
             for (Region region : tileset.getRegions()) {
-                if (region.contains(Utils.adjustToNormal(mouseEvent.getPoint(), mouseInfo.getZoomLevel()))) {
+                if (region.contains(mouseEvent.getPoint())) {
                     String newName = JOptionPane.showInputDialog(owner.getParent(), "Enter new region name", region.getName());
                     if (newName != null) {
                         region.setName(newName);
@@ -68,7 +71,7 @@ public class EditorMouseListener implements MouseListener {
     public void mousePressed(MouseEvent mouseEvent) {
         if ((mouseEvent.getModifiersEx() & (MouseEvent.CTRL_DOWN_MASK | MouseEvent.SHIFT_DOWN_MASK)) == 0) {
             mouseInfo.setMouseDown(true);
-            mouseInfo.setMouseDownPoint(tileset.confine(Utils.adjustToGrid(tileset, Utils.adjustToNormal(new Point(mouseEvent.getX(), mouseEvent.getY()), mouseInfo.getZoomLevel()))));
+            mouseInfo.setMouseDownPoint(tileset.confine(tileset.adjustToGrid(viewport.screenToOrigin(new Point(mouseEvent.getX(), mouseEvent.getY())))));
         }
     }
 
@@ -76,7 +79,7 @@ public class EditorMouseListener implements MouseListener {
     public void mouseReleased(MouseEvent mouseEvent) {
         if (mouseInfo.isMouseDown()) {
             mouseInfo.setMouseDown(false);
-            mouseInfo.setMouseUpPoint(tileset.confine(Utils.adjustToGrid(tileset, Utils.adjustToNormal(new Point(mouseEvent.getX(), mouseEvent.getY()), mouseInfo.getZoomLevel()))));
+            mouseInfo.setMouseUpPoint(tileset.confine(tileset.adjustToGrid(viewport.screenToOrigin(new Point(mouseEvent.getX(), mouseEvent.getY())))));
             if (Math.abs(mouseInfo.getMouseUpPoint().x - mouseInfo.getMouseDownPoint().x) > 1 && Math.abs(mouseInfo.getMouseUpPoint().y - mouseInfo.getMouseDownPoint().y) > 1) {
                 String name = JOptionPane.showInputDialog(owner.getParent(), "Enter region name", "REGION");
                 if (name != null) {
