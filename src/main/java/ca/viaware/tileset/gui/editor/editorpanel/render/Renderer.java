@@ -16,13 +16,13 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Project Sierra.  If not, see <http://www.gnu.org/licenses/>.
  */
-package ca.viaware.tileset.gui.editor.render;
+package ca.viaware.tileset.gui.editor.editorpanel.render;
 
-import ca.viaware.tileset.gui.editor.panel.EditorGraphicsPanel;
+import ca.viaware.tileset.gui.editor.editorpanel.EditorGraphicsPanel;
 import ca.viaware.tileset.obj.Region;
 import ca.viaware.tileset.obj.Tileset;
 import ca.viaware.tileset.utils.Utils;
-import ca.viaware.tileset.gui.editor.mouse.MouseInfo;
+import ca.viaware.tileset.gui.editor.editorpanel.mouse.MouseInfo;
 
 import java.awt.*;
 

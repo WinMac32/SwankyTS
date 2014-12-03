@@ -16,10 +16,10 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with Project Sierra.  If not, see <http://www.gnu.org/licenses/>.
  */
-package ca.viaware.tileset.gui.listeners;
+package ca.viaware.tileset.gui.editor.editorpanel.listeners;
 
-import ca.viaware.tileset.gui.editor.panel.EditorGraphicsPanel;
-import ca.viaware.tileset.gui.editor.panel.EditorSidebarPanel;
+import ca.viaware.tileset.gui.editor.editorpanel.EditorGraphicsPanel;
+import ca.viaware.tileset.gui.editor.editorpanel.EditorSidebarPanel;
 import ca.viaware.tileset.obj.Tileset;
 import ca.viaware.tileset.utils.FileUtils;
 import ca.viaware.tileset.utils.Utils;

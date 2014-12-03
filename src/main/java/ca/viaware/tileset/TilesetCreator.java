@@ -19,12 +19,9 @@ along with SwankyTS.  If not, see <http://www.gnu.org/licenses/>.
 package ca.viaware.tileset;
 
 import ca.viaware.api.logging.Log;
-import ca.viaware.tileset.gui.control.ControlWindow;
-import ca.viaware.tileset.obj.Tileset;
+import ca.viaware.tileset.gui.editor.EditorWindow;
 
 import javax.swing.*;
-
-import java.io.File;
 
 public class TilesetCreator {
 
@@ -43,7 +40,6 @@ public class TilesetCreator {
             e1.printStackTrace();
         }
 
-        ControlWindow control = new ControlWindow();
-        control.show();
+        new EditorWindow().setVisible(true);
     }
 }

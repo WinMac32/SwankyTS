@@ -1,6 +1,6 @@
-package ca.viaware.tileset.gui.editor.mouse;
+package ca.viaware.tileset.gui.editor.editorpanel.mouse;
 
-import ca.viaware.tileset.gui.editor.ActionExecutor;
+import ca.viaware.tileset.gui.editor.editorpanel.ActionExecutor;
 
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;

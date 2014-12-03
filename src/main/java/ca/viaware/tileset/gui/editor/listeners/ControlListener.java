@@ -16,7 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with SwankyTS.  If not, see <http://www.gnu.org/licenses/>.
  */
-package ca.viaware.tileset.gui.control;
+package ca.viaware.tileset.gui.editor.listeners;
 
 import ca.viaware.api.logging.Log;
 import ca.viaware.tileset.gui.editor.EditorWindow;
@@ -29,6 +29,12 @@ import java.io.File;
 import java.io.IOException;
 
 public class ControlListener implements ActionListener {
+
+    private EditorWindow editor;
+
+    public ControlListener(EditorWindow editor) {
+        this.editor = editor;
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -45,7 +51,7 @@ public class ControlListener implements ActionListener {
                     Tileset tileset = new Tileset(dataFile, imageFile);
                     try {
                         tileset.loadImage();
-                        new EditorWindow(tileset).setVisible(true);
+                        editor.addEditor(imageFile.getName(), tileset);
                     } catch (IOException e1) {
                         e1.printStackTrace();
                     }

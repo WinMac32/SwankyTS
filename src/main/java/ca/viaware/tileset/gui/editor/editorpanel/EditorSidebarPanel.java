@@ -16,12 +16,12 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with SwankyTS.  If not, see <http://www.gnu.org/licenses/>.
  */
-package ca.viaware.tileset.gui.editor.panel;
+package ca.viaware.tileset.gui.editor.editorpanel;
 
 import ca.viaware.api.gui.base.VButton;
 import ca.viaware.api.utils.StringUtils;
 import ca.viaware.tileset.gui.LabelAndTextPanel;
-import ca.viaware.tileset.gui.listeners.SidebarListener;
+import ca.viaware.tileset.gui.editor.editorpanel.listeners.SidebarListener;
 import ca.viaware.tileset.obj.Tileset;
 
 import javax.swing.*;
@@ -62,10 +62,10 @@ public class EditorSidebarPanel extends JPanel {
         infoArea.setFont(infoArea.getFont().deriveFont(8));
 
         infoArea.setText("Keybinds:\n" +
-                "Ctrl-click: Delete region\n" +
-                "Ctrl-drag: Delete regions\n" +
-                "Alt-click: Rename region\n" +
-                "Shift-drag: Pan camera");
+            "Ctrl-click: Delete region\n" +
+            "Ctrl-drag: Delete regions\n" +
+            "Alt-click: Rename region\n" +
+            "Shift-drag: Pan camera");
 
         add(infoArea);
 

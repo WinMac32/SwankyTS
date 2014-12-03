@@ -1,6 +1,6 @@
-package ca.viaware.tileset.gui.editor.panel.listeners;
+package ca.viaware.tileset.gui.editor.editorpanel.listeners;
 
-import ca.viaware.tileset.gui.editor.ActionExecutor;
+import ca.viaware.tileset.gui.editor.editorpanel.ActionExecutor;
 
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;

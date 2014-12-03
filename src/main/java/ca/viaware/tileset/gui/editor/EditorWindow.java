@@ -18,7 +18,9 @@ along with SwankyTS.  If not, see <http://www.gnu.org/licenses/>.
  */
 package ca.viaware.tileset.gui.editor;
 
-import ca.viaware.tileset.gui.editor.panel.EditorPanel;
+import ca.viaware.api.gui.base.VMenuItem;
+import ca.viaware.tileset.gui.editor.listeners.ControlListener;
+import ca.viaware.tileset.gui.editor.editorpanel.EditorPanel;
 import ca.viaware.tileset.obj.Tileset;
 
 import javax.swing.*;
@@ -28,20 +30,29 @@ import java.awt.*;
 @SuppressWarnings("serial")
 public class EditorWindow extends JFrame {
 
-    private Tileset tileset;
-    private EditorPanel editor;
+    private JTabbedPane editorTabs;
 
-    public EditorWindow(Tileset tileset) {
-        this.tileset = tileset;
-
+    public EditorWindow() {
         setTitle("SwankyTS");
         setSize(1200, 1000);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         getContentPane().setLayout(new BorderLayout());
 
-        this.editor = new EditorPanel(tileset);
-        getContentPane().add(editor, BorderLayout.CENTER);
+        JMenuBar menuBar = new JMenuBar();
+        JMenu fileMenu = new JMenu("File");
+        fileMenu.add(new VMenuItem("Open", new ControlListener(this), "OPEN"));
+        menuBar.add(fileMenu);
+        getContentPane().add(menuBar, BorderLayout.PAGE_START);
+
+        this.editorTabs = new JTabbedPane();
+        getContentPane().add(editorTabs, BorderLayout.CENTER);
+    }
+
+    public void addEditor(String name, Tileset tileset) {
+        EditorPanel editor = new EditorPanel(tileset);
+        editorTabs.addTab(null, editor);
+        editorTabs.setTabComponentAt(editorTabs.getTabCount() - 1, new TabPanel(name, editorTabs));
     }
 
 }

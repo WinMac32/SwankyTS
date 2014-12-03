@@ -1,6 +1,6 @@
-package ca.viaware.tileset.gui.editor.render;
+package ca.viaware.tileset.gui.editor.editorpanel.render;
 
-import ca.viaware.tileset.gui.editor.panel.EditorGraphicsPanel;
+import ca.viaware.tileset.gui.editor.editorpanel.EditorGraphicsPanel;
 
 import java.awt.*;
 

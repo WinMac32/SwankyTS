@@ -16,17 +16,17 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with SwankyTS.  If not, see <http://www.gnu.org/licenses/>.
  */
-package ca.viaware.tileset.gui.editor.panel;
+package ca.viaware.tileset.gui.editor.editorpanel;
 
-import ca.viaware.tileset.gui.editor.ActionExecutor;
-import ca.viaware.tileset.gui.editor.mouse.EditorMouseListener;
-import ca.viaware.tileset.gui.editor.mouse.EditorMouseMotionListener;
-import ca.viaware.tileset.gui.editor.mouse.EditorMouseWheelListener;
-import ca.viaware.tileset.gui.editor.panel.listeners.GraphicsPanelComponentListener;
-import ca.viaware.tileset.gui.editor.render.Viewport;
+import ca.viaware.tileset.gui.editor.editorpanel.ActionExecutor;
+import ca.viaware.tileset.gui.editor.editorpanel.mouse.EditorMouseListener;
+import ca.viaware.tileset.gui.editor.editorpanel.mouse.EditorMouseMotionListener;
+import ca.viaware.tileset.gui.editor.editorpanel.mouse.EditorMouseWheelListener;
+import ca.viaware.tileset.gui.editor.editorpanel.listeners.GraphicsPanelComponentListener;
+import ca.viaware.tileset.gui.editor.editorpanel.render.Viewport;
 import ca.viaware.tileset.obj.Tileset;
-import ca.viaware.tileset.gui.editor.mouse.MouseInfo;
-import ca.viaware.tileset.gui.editor.render.Renderer;
+import ca.viaware.tileset.gui.editor.editorpanel.mouse.MouseInfo;
+import ca.viaware.tileset.gui.editor.editorpanel.render.Renderer;
 
 import javax.swing.*;
 
@@ -47,6 +47,8 @@ public class EditorGraphicsPanel extends JPanel {
         this.renderer = new Renderer(tileset, mouseInfo, viewport, this);
         this.actionExecutor = new ActionExecutor(tileset, mouseInfo, viewport, this);
 
+        setBackground(Color.WHITE);
+
         addMouseListener(new EditorMouseListener(actionExecutor));
         addMouseMotionListener(new EditorMouseMotionListener(actionExecutor));
         addMouseWheelListener(new EditorMouseWheelListener(actionExecutor));
@@ -59,14 +61,20 @@ public class EditorGraphicsPanel extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D)g;
+
+        int checkerWidth = 16;
+        for (int i = 0; i < getWidth() / checkerWidth; i++) {
+            for (int j = 0; j < getHeight() / checkerWidth; j++) {
+                g2d.setColor((j + (i % 2)) % 2 == 0 ? Color.lightGray : Color.WHITE);
+                g2d.fillRect(i * checkerWidth, j * checkerWidth, checkerWidth, checkerWidth);
+            }
+        }
+
         renderer.setContext(g2d);
 
         renderer.renderImage();
-
         renderer.renderGrid();
-
         renderer.renderRegions();
-
         renderer.renderSelection();
     }
 
