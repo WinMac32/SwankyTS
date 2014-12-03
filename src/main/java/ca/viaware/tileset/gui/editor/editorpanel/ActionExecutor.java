@@ -128,14 +128,17 @@ public class ActionExecutor {
     /**
      * Zoom the viewport around a point
      * @param zoomChange x > 0 zooms in |x| factor, x < 0 zooms out |x| factor
-     * @param point Point in 'who knows' space. TODO Not implemented.
+     * @param point Point in screen space.
      */
     public void zoom(int zoomChange, Point point) {
         mouseInfo.setZoomLevel(mouseInfo.getZoomLevel() + zoomChange);
 
-        //TODO Scale around mouse pointer
-
+        Point preZoom = viewport.screenToOrigin(point);
         recalculateViewportZoom();
+        Point afterZoom = viewport.screenToOrigin(point);
+
+        viewport.x += (afterZoom.x - preZoom.x) * viewport.widthScaleRatio();
+        viewport.y += (afterZoom.y - preZoom.y) * viewport.heightScaleRatio();
 
         graphicsPanel.repaint();
     }

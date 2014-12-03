@@ -48,11 +48,11 @@ public class Viewport extends Rectangle {
         return new Point((int)((p.x - this.x + (widthScaleRatio() / 2)) / widthScaleRatio()), (int)((p.y - this.y + (heightScaleRatio() / 2)) / heightScaleRatio()));
     }
 
-    private double widthScaleRatio() {
+    public double widthScaleRatio() {
         return (double) getViewWidth() / getWidth();
     }
 
-    private double heightScaleRatio() {
+    public double heightScaleRatio() {
         return (double) getViewHeight() / getHeight();
     }
 
