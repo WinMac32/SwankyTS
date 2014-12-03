@@ -35,7 +35,7 @@ public class Renderer {
 
     private Graphics2D g2d;
 
-    public Renderer(Tileset tileset, MouseInfo mouseInfo, EditorGraphicsPanel graphicsPanel, Viewport viewport) {
+    public Renderer(Tileset tileset, MouseInfo mouseInfo, Viewport viewport, EditorGraphicsPanel graphicsPanel) {
         this.tileset = tileset;
         this.mouseInfo = mouseInfo;
         this.graphicsPanel = graphicsPanel;

@@ -53,7 +53,7 @@ public class SidebarListener implements ActionListener {
         }
 
         if (cmd.equals("GENERATE_REGIONS")) {
-            if (tileset.isAlignToGrid()) tileset.getRegions().addAll(Utils.generateRegionsFromGrid(tileset, editor.getImageDimensions().width / tileset.getGridConfig().width, editor.getImageDimensions().height / tileset.getGridConfig().height));
+            if (tileset.isAlignToGrid()) tileset.getRegions().addAll(Utils.generateRegionsFromGrid(tileset, tileset.getImage().getWidth() / tileset.getGridConfig().width, tileset.getImage().getHeight() / tileset.getGridConfig().height));
         }
         
         if (cmd.equals("SAVE")) {

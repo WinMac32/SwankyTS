@@ -18,47 +18,27 @@ along with SwankyTS.  If not, see <http://www.gnu.org/licenses/>.
  */
 package ca.viaware.tileset.gui.editor.mouse;
 
-import ca.viaware.tileset.gui.editor.panel.EditorGraphicsPanel;
-import ca.viaware.tileset.gui.editor.render.Viewport;
-import ca.viaware.tileset.obj.Tileset;
-import ca.viaware.tileset.utils.Utils;
+import ca.viaware.tileset.gui.editor.ActionExecutor;
 
-import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 
 public class EditorMouseMotionListener implements MouseMotionListener {
 
-    private EditorGraphicsPanel graphicsPanel;
-    private Tileset tileset;
-    private MouseInfo mouseInfo;
-    private Viewport viewport;
+    private ActionExecutor actionExecutor;
 
-    public EditorMouseMotionListener(Tileset tileset, EditorGraphicsPanel graphicsPanel, MouseInfo mouseInfo, Viewport viewport) {
-        this.tileset = tileset;
-        this.graphicsPanel = graphicsPanel;
-        this.mouseInfo = mouseInfo;
-        this.viewport = viewport;
+    public EditorMouseMotionListener(ActionExecutor actionExecutor) {
+        this.actionExecutor = actionExecutor;
     }
 
     @Override
     public void mouseDragged(MouseEvent mouseEvent) {
         if ((mouseEvent.getModifiersEx() & MouseEvent.CTRL_DOWN_MASK) == MouseEvent.CTRL_DOWN_MASK) {
-            graphicsPanel.deleteRectAt(mouseEvent.getPoint());
+            actionExecutor.removeRegionAt(mouseEvent.getPoint());
         } else if ((mouseEvent.getModifiersEx() & MouseEvent.SHIFT_DOWN_MASK) == MouseEvent.SHIFT_DOWN_MASK) {
-            //TODO Drag image around
-            if (mouseInfo.getLastDrag() != null) {
-                int dx = mouseInfo.getLastDrag().x - mouseEvent.getPoint().x;
-                int dy = mouseInfo.getLastDrag().y - mouseEvent.getPoint().y;
-                viewport.x = viewport.x - dx;
-                viewport.y = viewport.y - dy;
-                graphicsPanel.repaint();
-            }
-            mouseInfo.setLastDrag(mouseEvent.getPoint());
+            actionExecutor.dragViewport(mouseEvent.getPoint());
         } else {
-            mouseInfo.setMouseUpPoint(tileset.confine(tileset.adjustToGrid(viewport.screenToOrigin(new Point(mouseEvent.getX(), mouseEvent.getY())))));
-            graphicsPanel.repaint();
-            graphicsPanel.getParent().repaint();
+            actionExecutor.resizeRegion(mouseEvent.getPoint());
         }
     }
 

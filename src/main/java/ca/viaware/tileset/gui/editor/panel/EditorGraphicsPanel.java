@@ -18,13 +18,13 @@ along with SwankyTS.  If not, see <http://www.gnu.org/licenses/>.
  */
 package ca.viaware.tileset.gui.editor.panel;
 
+import ca.viaware.tileset.gui.editor.ActionExecutor;
 import ca.viaware.tileset.gui.editor.mouse.EditorMouseListener;
 import ca.viaware.tileset.gui.editor.mouse.EditorMouseMotionListener;
 import ca.viaware.tileset.gui.editor.mouse.EditorMouseWheelListener;
 import ca.viaware.tileset.gui.editor.panel.listeners.GraphicsPanelComponentListener;
 import ca.viaware.tileset.gui.editor.render.Viewport;
 import ca.viaware.tileset.obj.Tileset;
-import ca.viaware.tileset.utils.Utils;
 import ca.viaware.tileset.gui.editor.mouse.MouseInfo;
 import ca.viaware.tileset.gui.editor.render.Renderer;
 
@@ -35,38 +35,24 @@ import java.awt.*;
 @SuppressWarnings("serial")
 public class EditorGraphicsPanel extends JPanel {
 
-    private Tileset tileset;
-    private MouseInfo mouseInfo;
     private Renderer renderer;
-    private Viewport viewport;
 
-    public EditorGraphicsPanel(final Tileset tileset) {
-        this.tileset = tileset;
+    private ActionExecutor actionExecutor;
 
-        this.viewport = new Viewport(0, 0, getWidth(), getHeight(), this);
-        this.mouseInfo = new MouseInfo();
-        this.renderer = new Renderer(tileset, mouseInfo, this, viewport);
+    public EditorGraphicsPanel(Tileset tileset) {
 
-        addMouseListener(new EditorMouseListener(tileset, this, mouseInfo, viewport));
-        addMouseMotionListener(new EditorMouseMotionListener(tileset, this, mouseInfo, viewport));
-        addMouseWheelListener(new EditorMouseWheelListener(tileset, this, mouseInfo, viewport));
-        addComponentListener(new GraphicsPanelComponentListener(viewport, this));
+        Viewport viewport = new Viewport(0, 0, getWidth(), getHeight(), this);
+        MouseInfo mouseInfo = new MouseInfo();
+
+        this.renderer = new Renderer(tileset, mouseInfo, viewport, this);
+        this.actionExecutor = new ActionExecutor(tileset, mouseInfo, viewport, this);
+
+        addMouseListener(new EditorMouseListener(actionExecutor));
+        addMouseMotionListener(new EditorMouseMotionListener(actionExecutor));
+        addMouseWheelListener(new EditorMouseWheelListener(actionExecutor));
+        addComponentListener(new GraphicsPanelComponentListener(actionExecutor));
 
         repaint();
-    }
-
-    public Dimension getImageDimensions() {
-        return new Dimension(tileset.getImage().getWidth(), tileset.getImage().getHeight());
-    }
-
-    public void deleteRectAt(Point p) {
-        for (int i = tileset.getRegions().size() - 1; i >= 0; i--) {
-            if (tileset.getRegions().get(i).contains(p)) {
-                tileset.getRegions().remove(i);
-                repaint();
-                break;
-            }
-        }
     }
 
     @Override

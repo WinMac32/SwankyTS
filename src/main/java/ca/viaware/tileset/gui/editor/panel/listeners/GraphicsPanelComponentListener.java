@@ -1,26 +1,21 @@
 package ca.viaware.tileset.gui.editor.panel.listeners;
 
-import ca.viaware.tileset.gui.editor.panel.EditorGraphicsPanel;
-import ca.viaware.tileset.gui.editor.render.Viewport;
+import ca.viaware.tileset.gui.editor.ActionExecutor;
 
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 
 public class GraphicsPanelComponentListener implements ComponentListener {
 
-    private Viewport viewport;
-    private EditorGraphicsPanel graphicsPanel;
+    private ActionExecutor actionExecutor;
 
-    public GraphicsPanelComponentListener(Viewport viewport, EditorGraphicsPanel graphicsPanel) {
-        this.viewport = viewport;
-        this.graphicsPanel = graphicsPanel;
+    public GraphicsPanelComponentListener(ActionExecutor actionExecutor) {
+        this.actionExecutor = actionExecutor;
     }
 
     @Override
     public void componentResized(ComponentEvent e) {
-        viewport.setViewWidth(graphicsPanel.getWidth());
-        viewport.setViewHeight(graphicsPanel.getHeight());
-        graphicsPanel.repaint();
+        actionExecutor.resizeViewport(e.getComponent().getWidth(), e.getComponent().getHeight());
     }
 
     @Override
