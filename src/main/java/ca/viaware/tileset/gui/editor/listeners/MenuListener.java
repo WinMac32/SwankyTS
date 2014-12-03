@@ -21,6 +21,8 @@ package ca.viaware.tileset.gui.editor.listeners;
 import ca.viaware.api.logging.Log;
 import ca.viaware.tileset.gui.editor.EditorWindow;
 import ca.viaware.tileset.obj.Tileset;
+import ca.viaware.tileset.utils.FileUtils;
+import ca.viaware.tileset.utils.Utils;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -28,11 +30,11 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 
-public class ControlListener implements ActionListener {
+public class MenuListener implements ActionListener {
 
     private EditorWindow editor;
 
-    public ControlListener(EditorWindow editor) {
+    public MenuListener(EditorWindow editor) {
         this.editor = editor;
     }
 
@@ -41,7 +43,7 @@ public class ControlListener implements ActionListener {
 
         String cmd = e.getActionCommand();
 
-        if (cmd.equals("OPEN")) {
+        if (cmd.equals("FILE_OPEN")) {
             JFileChooser chooser = new JFileChooser();
             chooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
             if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
@@ -61,6 +63,13 @@ public class ControlListener implements ActionListener {
             } else {
                 Log.error("User cancelled.");
             }
+        } else if (cmd.equals("FILE_SAVE")) {
+            Tileset tileset = editor.getSelectedEditor().getTileset();
+            FileUtils.saveRegions(tileset.getDataFile(), tileset.getRegions());
+        } else if (cmd.equals("TOOLS_GEN_GRID")) {
+            Tileset tileset = editor.getSelectedEditor().getTileset();
+            if (tileset.isAlignToGrid()) tileset.getRegions().addAll(Utils.generateRegionsFromGrid(tileset, tileset.getImage().getWidth() / tileset.getGridConfig().width, tileset.getImage().getHeight() / tileset.getGridConfig().height));
+            editor.getSelectedEditor().repaint();
         }
 
     }

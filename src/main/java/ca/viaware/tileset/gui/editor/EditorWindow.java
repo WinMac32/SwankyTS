@@ -19,7 +19,7 @@ along with SwankyTS.  If not, see <http://www.gnu.org/licenses/>.
 package ca.viaware.tileset.gui.editor;
 
 import ca.viaware.api.gui.base.VMenuItem;
-import ca.viaware.tileset.gui.editor.listeners.ControlListener;
+import ca.viaware.tileset.gui.editor.listeners.MenuListener;
 import ca.viaware.tileset.gui.editor.editorpanel.EditorPanel;
 import ca.viaware.tileset.obj.Tileset;
 
@@ -39,10 +39,18 @@ public class EditorWindow extends JFrame {
 
         getContentPane().setLayout(new BorderLayout());
 
+        MenuListener menuListener = new MenuListener(this);
         JMenuBar menuBar = new JMenuBar();
+
         JMenu fileMenu = new JMenu("File");
-        fileMenu.add(new VMenuItem("Open", new ControlListener(this), "OPEN"));
+        fileMenu.add(new VMenuItem("Open", menuListener, "FILE_OPEN"));
+        fileMenu.add(new VMenuItem("Save", menuListener, "FILE_SAVE"));
         menuBar.add(fileMenu);
+
+        JMenu toolsMenu = new JMenu("Tools");
+        toolsMenu.add(new VMenuItem("Generate to grid", menuListener, "TOOLS_GEN_GRID"));
+        menuBar.add(toolsMenu);
+
         getContentPane().add(menuBar, BorderLayout.PAGE_START);
 
         this.editorTabs = new JTabbedPane();
@@ -53,6 +61,10 @@ public class EditorWindow extends JFrame {
         EditorPanel editor = new EditorPanel(tileset);
         editorTabs.addTab(null, editor);
         editorTabs.setTabComponentAt(editorTabs.getTabCount() - 1, new TabPanel(name, editorTabs));
+    }
+
+    public EditorPanel getSelectedEditor() {
+        return (EditorPanel) editorTabs.getSelectedComponent();
     }
 
 }

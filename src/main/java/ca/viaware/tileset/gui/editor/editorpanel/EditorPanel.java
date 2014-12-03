@@ -41,4 +41,8 @@ public class EditorPanel extends JPanel {
         add(editor, BorderLayout.CENTER);
     }
 
+    public Tileset getTileset() {
+        return tileset;
+    }
+
 }

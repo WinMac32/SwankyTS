@@ -52,9 +52,6 @@ public class EditorSidebarPanel extends JPanel {
         add(gridWidthPanel);
         add(gridHeightPanel);
 
-        add(new VButton("Generate to Grid", new SidebarListener(tileset, editor, this), "GENERATE_REGIONS"));
-        add(new VButton("Save", new SidebarListener(tileset, editor, this), "SAVE"));
-
         JTextArea infoArea = new JTextArea();
         infoArea.setPreferredSize(new Dimension(180, 200));
         infoArea.setEditable(false);
