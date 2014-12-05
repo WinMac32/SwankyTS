@@ -19,6 +19,7 @@ along with SwankyTS.  If not, see <http://www.gnu.org/licenses/>.
 package ca.viaware.tileset;
 
 import ca.viaware.api.logging.Log;
+import ca.viaware.tileset.file.FileManager;
 import ca.viaware.tileset.gui.editor.EditorWindow;
 
 import javax.swing.*;
@@ -39,6 +40,8 @@ public class TilesetCreator {
         } catch (UnsupportedLookAndFeelException e1) {
             e1.printStackTrace();
         }
+
+        FileManager.registerInterfaces();
 
         new EditorWindow().setVisible(true);
     }
