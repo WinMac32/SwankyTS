@@ -19,6 +19,7 @@ along with SwankyTS.  If not, see <http://www.gnu.org/licenses/>.
 package ca.viaware.tileset.gui.editor.listeners;
 
 import ca.viaware.api.logging.Log;
+import ca.viaware.tileset.file.FileManager;
 import ca.viaware.tileset.gui.editor.EditorWindow;
 import ca.viaware.tileset.obj.Tileset;
 import ca.viaware.tileset.utils.FileUtils;
@@ -65,7 +66,9 @@ public class MenuListener implements ActionListener {
             }
         } else if (cmd.equals("FILE_SAVE")) {
             Tileset tileset = editor.getSelectedEditor().getTileset();
-            FileUtils.saveRegions(tileset.getDataFile(), tileset.getRegions());
+            //FileUtils.saveRegions(tileset.getDataFile(), tileset.getRegions());
+            //TODO TEMP region testing
+            FileManager.getInterface("JSON").runExport(tileset, tileset.getImageFile().getName().split("[.]")[0]);
         } else if (cmd.equals("TOOLS_GEN_GRID")) {
             Tileset tileset = editor.getSelectedEditor().getTileset();
             if (tileset.isAlignToGrid()) tileset.getRegions().addAll(Utils.generateRegionsFromGrid(tileset, tileset.getImage().getWidth() / tileset.getGridConfig().width, tileset.getImage().getHeight() / tileset.getGridConfig().height));

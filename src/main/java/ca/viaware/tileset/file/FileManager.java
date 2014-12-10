@@ -26,8 +26,15 @@ public class FileManager {
         }
     }
 
-    public ArrayList<FileInterface> getInterfaces() {
+    public static ArrayList<FileInterface> getInterfaces() {
         return interfaces;
+    }
+
+    public static FileInterface getInterface(String name) {
+        for (FileInterface i : interfaces) {
+            if (i.getName().equals(name)) return i;
+        }
+        return null;
     }
 
 }
