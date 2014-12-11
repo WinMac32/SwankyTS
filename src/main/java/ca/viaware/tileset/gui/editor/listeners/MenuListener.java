@@ -19,6 +19,7 @@ along with SwankyTS.  If not, see <http://www.gnu.org/licenses/>.
 package ca.viaware.tileset.gui.editor.listeners;
 
 import ca.viaware.api.logging.Log;
+import ca.viaware.tileset.file.FileInterface;
 import ca.viaware.tileset.file.FileManager;
 import ca.viaware.tileset.gui.editor.EditorWindow;
 import ca.viaware.tileset.obj.Tileset;
@@ -26,6 +27,9 @@ import ca.viaware.tileset.utils.FileUtils;
 import ca.viaware.tileset.utils.Utils;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.filechooser.FileSystemView;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -45,30 +49,13 @@ public class MenuListener implements ActionListener {
         String cmd = e.getActionCommand();
 
         if (cmd.equals("FILE_OPEN")) {
-            JFileChooser chooser = new JFileChooser();
-            chooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
-            if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-                File imageFile = chooser.getSelectedFile();
-                if (imageFile.exists()) {
-                    File dataFile = new File(imageFile.getPath() + ".regions");
-                    Tileset tileset = new Tileset(dataFile, imageFile);
-                    try {
-                        tileset.loadImage();
-                        editor.addEditor(imageFile.getName(), tileset);
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
-                    }
-                } else {
-                    Log.error("Could not find that image file!");
-                }
-            } else {
-                Log.error("User cancelled.");
+            Tileset tileset = FileUtils.loadTileset();
+            if (tileset != null) {
+                editor.addEditor(tileset.getImageFile().getName(), tileset);
             }
         } else if (cmd.equals("FILE_SAVE")) {
             Tileset tileset = editor.getSelectedEditor().getTileset();
-            //FileUtils.saveRegions(tileset.getDataFile(), tileset.getRegions());
-            //TODO TEMP region testing
-            FileManager.getInterface("JSON").runExport(tileset, tileset.getImageFile().getName().split("[.]")[0]);
+            FileUtils.saveTileset(tileset);
         } else if (cmd.equals("TOOLS_GEN_GRID")) {
             Tileset tileset = editor.getSelectedEditor().getTileset();
             if (tileset.isAlignToGrid()) tileset.getRegions().addAll(Utils.generateRegionsFromGrid(tileset, tileset.getImage().getWidth() / tileset.getGridConfig().width, tileset.getImage().getHeight() / tileset.getGridConfig().height));

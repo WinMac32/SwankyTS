@@ -21,10 +21,11 @@ public abstract class FileInterface {
 
     public boolean runExport(Tileset tileset, String outName) {
         File outFile = new File(outName + "." + extension);
+
         try {
             outFile.createNewFile();
             OutputStream out = new FileOutputStream(outFile);
-            handleExport(tileset.getRegions(), out);
+            handleExport(tileset, out);
             out.close();
             return true;
         } catch (FileNotFoundException e) {
@@ -35,11 +36,19 @@ public abstract class FileInterface {
         return false;
     }
 
-    protected abstract void handleExport(ArrayList<Region> regions, OutputStream out) throws IOException;
-    protected abstract ArrayList<Region> handleImport(InputStream in) throws IOException;
+    public Tileset runImport(File sourceFile) throws IOException {
+        return handleImport(sourceFile, new FileInputStream(sourceFile));
+    }
+
+    protected abstract void handleExport(Tileset tileset, OutputStream out) throws IOException;
+    protected abstract Tileset handleImport(File source, InputStream in) throws IOException;
 
     public String getName() {
         return name;
+    }
+
+    public String getExtension() {
+        return extension;
     }
 
 }

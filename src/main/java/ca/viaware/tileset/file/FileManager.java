@@ -37,4 +37,11 @@ public class FileManager {
         return null;
     }
 
+    public static FileInterface getInterfaceForExtension(String ext) {
+        for (FileInterface i : interfaces) {
+            if (i.getExtension().equalsIgnoreCase(ext)) return i;
+        }
+        return null;
+    }
+
 }

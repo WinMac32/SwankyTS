@@ -2,6 +2,7 @@ package ca.viaware.tileset.file.interfaces;
 
 import ca.viaware.tileset.file.FileInterface;
 import ca.viaware.tileset.obj.Region;
+import ca.viaware.tileset.obj.Tileset;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -13,10 +14,12 @@ public class ViaWareFile extends FileInterface {
     }
 
     @Override
-    protected void handleExport(ArrayList<Region> regions, OutputStream out) throws IOException {
+    protected void handleExport(Tileset tileset, OutputStream out) throws IOException {
         DataOutputStream output = new DataOutputStream(out);
 
-        for (Region region : regions) {
+        output.writeUTF(tileset.getImageFile().getName());
+
+        for (Region region : tileset.getRegions()) {
             output.writeShort(region.x);
             output.writeShort(region.y);
             output.writeShort(region.width);
@@ -27,9 +30,11 @@ public class ViaWareFile extends FileInterface {
     }
 
     @Override
-    protected ArrayList<Region> handleImport(InputStream in) throws IOException {
+    protected Tileset handleImport(File source, InputStream in) throws IOException {
         ArrayList<Region> regions = new ArrayList<Region>();
         DataInputStream input = new DataInputStream(in);
+
+        String image = input.readUTF();
 
         while (true) {
             int[] read = new int[4];
@@ -37,7 +42,7 @@ public class ViaWareFile extends FileInterface {
                 int r = input.readShort();
                 if (r == -100) {
                     input.close();
-                    return regions;
+                    return new Tileset(source, new File(image), regions);
                 }
                 read[i] = r;
             }

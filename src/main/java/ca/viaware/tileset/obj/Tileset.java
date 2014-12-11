@@ -39,14 +39,22 @@ public class Tileset {
     private boolean isAlignToGrid;
     private Rectangle gridConfig;
 
-    public Tileset(File dataFile, File imageFile) {
+    public Tileset(File dataFile, File imageFile, ArrayList<Region> regions) {
         setDataFile(dataFile);
         setImageFile(imageFile);
+        setRegions(regions);
+    }
+
+    public Tileset(File dataFile, File imageFile) {
+        this(dataFile, imageFile, new ArrayList<Region>());
+    }
+
+    public Tileset(File imageFile) {
+        this(null, imageFile);
     }
 
     public void loadImage() throws IOException {
         setImage(ImageIO.read(getImageFile()));
-        setRegions(FileUtils.loadRegions(getDataFile()));
     }
 
     public File getDataFile() {

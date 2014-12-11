@@ -18,73 +18,71 @@ along with SwankyTS.  If not, see <http://www.gnu.org/licenses/>.
  */
 package ca.viaware.tileset.utils;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-
 import ca.viaware.api.logging.Log;
-import ca.viaware.tileset.obj.Region;
+import ca.viaware.tileset.file.FileInterface;
+import ca.viaware.tileset.file.FileManager;
+import ca.viaware.tileset.obj.Tileset;
+
+import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.io.File;
+import java.io.IOException;
 
 public class FileUtils {
 
-    public static void saveRegions(File file, ArrayList<Region> regions) {
-        try {
-            Log.info("Saving file %0", file.getAbsolutePath());
-            if (!file.exists()) file.createNewFile();
-            DataOutputStream output = new DataOutputStream(new FileOutputStream(file));
+    public static Tileset loadTileset() {
+        JFileChooser chooser = new JFileChooser();
+        chooser.setCurrentDirectory(new File(System.getProperty("user.dir")));
+        if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+            File sourceFile = chooser.getSelectedFile();
+            if (sourceFile.exists()) {
+                try {
+                    FileInterface loader = FileManager.getInterfaceForExtension(sourceFile.getName().split("[.]")[1]);
+                    Tileset tileset;
+                    if (loader != null) {
+                        Log.info("Loading existing tileset");
+                        tileset = loader.runImport(sourceFile);
+                    } else {
+                        Log.info("Loading new tileset as raw image");
+                        tileset = new Tileset(sourceFile);
+                    }
 
-            for (Region region : regions) {
-                output.writeShort(region.x);
-                output.writeShort(region.y);
-                output.writeShort(region.width);
-                output.writeShort(region.height);
-                output.writeUTF(region.getName());
+                    tileset.loadImage();
+                    return tileset;
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            } else {
+                Log.error("Could not find that image file!");
             }
-            output.writeShort(-100);
-
-            output.close();
-
-            Log.info("Done.");
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } else {
+            Log.error("User cancelled.");
         }
+        return null;
     }
 
-    public static ArrayList<Region> loadRegions(File file) {
-        Log.info("Loading file %0", file.getAbsolutePath());
-        ArrayList<Region> regions = new ArrayList<Region>();
-
-        if (!file.exists()) return regions;
-
-        try {
-            DataInputStream input = new DataInputStream(new FileInputStream(file));
-
-            while (true) {
-                int[] read = new int[4];
-                for (int i = 0; i < read.length; i++) {
-                    int r = input.readShort();
-                    if (r == -100) {
-                        input.close();
-                        return regions;
-                    }
-                    read[i] = r;
-                }
-                regions.add(new Region(read[0], read[1], read[2], read[3], input.readUTF()));
+    public static void saveTileset(Tileset tileset) {
+        if (tileset.getDataFile() != null) {
+            FileManager.getInterfaceForExtension(tileset.getDataFile().getName().split("[.]")[1]).runExport(tileset, tileset.getImageFile().getName().split("[.]")[0]);
+        } else {
+            JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
+            for (FileInterface fileInterface : FileManager.getInterfaces()) {
+                chooser.addChoosableFileFilter(new FileNameExtensionFilter(fileInterface.getName(), fileInterface.getExtension()));
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+            chooser.setAcceptAllFileFilterUsed(false);
+            if (chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
+                File dataFile = chooser.getSelectedFile();
+                Log.info("Selected file %0 of type %1", dataFile.getName(), chooser.getFileFilter().getDescription());
+                FileInterface fileInterface = FileManager.getInterface(chooser.getFileFilter().getDescription());
+                if (fileInterface != null) {
+                    fileInterface.runExport(tileset, dataFile.getName());
+                } else {
+                    Log.error("Unknown file type!");
+                }
+            } else {
+                Log.error("User cancelled");
+            }
         }
-
-        return regions;
     }
 
 }
