@@ -22,8 +22,10 @@ public class JSONFile extends FileInterface {
         BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out));
         JSONWriter jsonWriter = new JSONWriter(writer);
         jsonWriter.object().key("frames").object();
+        writer.newLine();
         for (Region region : tileset.getRegions()) {
             jsonWriter.key(region.getName()).object();
+            writer.newLine();
 
             jsonWriter.key("frame").object();
                 jsonWriter.key("x").value(region.getX());
@@ -31,9 +33,13 @@ public class JSONFile extends FileInterface {
                 jsonWriter.key("w").value(region.getWidth());
                 jsonWriter.key("h").value(region.getHeight());
             jsonWriter.endObject();
+            writer.newLine();
 
             jsonWriter.key("rotated").value(false);
+            writer.newLine();
+
             jsonWriter.key("trimmed").value(false);
+            writer.newLine();
 
             jsonWriter.key("spriteSourceSize").object();
                 jsonWriter.key("x").value(0);
@@ -41,15 +47,19 @@ public class JSONFile extends FileInterface {
                 jsonWriter.key("w").value(region.getWidth());
                 jsonWriter.key("h").value(region.getHeight());
             jsonWriter.endObject();
+            writer.newLine();
 
             jsonWriter.key("sourceSize").object();
                 jsonWriter.key("w").value(region.getWidth());
                 jsonWriter.key("h").value(region.getHeight());
             jsonWriter.endObject();
+            writer.newLine();
 
             jsonWriter.endObject();
+            writer.newLine();
         }
         jsonWriter.endObject();
+        writer.newLine();
 
         jsonWriter.key("meta").object();
             jsonWriter.key("app").value("SwankyTS");
