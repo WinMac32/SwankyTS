@@ -34,7 +34,7 @@ public class EditorPanel extends JPanel {
         this.tileset = tileset;
 
         this.editor = new EditorGraphicsPanel(tileset);
-        this.sidebarPanel = new EditorSidebarPanel(tileset, editor);
+        this.sidebarPanel = new EditorSidebarPanel(tileset, editor, editor.getToolManager());
 
         setLayout(new BorderLayout());
         add(sidebarPanel, BorderLayout.LINE_START);

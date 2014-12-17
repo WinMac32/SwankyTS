@@ -19,7 +19,6 @@ along with SwankyTS.  If not, see <http://www.gnu.org/licenses/>.
 package ca.viaware.tileset.gui.editor.editorpanel;
 
 import ca.viaware.tileset.gui.editor.editorpanel.mouse.MouseInfo;
-import ca.viaware.tileset.gui.editor.editorpanel.EditorGraphicsPanel;
 import ca.viaware.tileset.gui.editor.editorpanel.render.Viewport;
 import ca.viaware.tileset.obj.Region;
 import ca.viaware.tileset.obj.Tileset;
@@ -186,6 +185,20 @@ public class ActionExecutor {
         viewport.setViewHeight(height);
         recalculateViewportZoom();
         graphicsPanel.repaint();
+    }
+
+    /**
+     * Get the region at point
+     * @param point point in screen space
+     * @return
+     */
+    public Region getRegionAt(Point point) {
+        for (Region region : tileset.getRegions()) {
+            if (region.contains(viewport.screenToOrigin(point))) {
+                return region;
+            }
+        }
+        return null;
     }
 
 }

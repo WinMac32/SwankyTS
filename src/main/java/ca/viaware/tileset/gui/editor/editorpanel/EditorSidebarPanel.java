@@ -22,6 +22,7 @@ import ca.viaware.api.gui.base.VButton;
 import ca.viaware.api.utils.StringUtils;
 import ca.viaware.tileset.gui.LabelAndTextPanel;
 import ca.viaware.tileset.gui.editor.editorpanel.listeners.SidebarListener;
+import ca.viaware.tileset.gui.editor.editorpanel.tool.ToolManager;
 import ca.viaware.tileset.obj.Tileset;
 
 import javax.swing.*;
@@ -35,12 +36,14 @@ public class EditorSidebarPanel extends JPanel {
     private LabelAndTextPanel gridWidthPanel;
     private LabelAndTextPanel gridHeightPanel;
 
-    public EditorSidebarPanel(Tileset tileset, EditorGraphicsPanel editor) {
+    public EditorSidebarPanel(Tileset tileset, EditorGraphicsPanel editor, ToolManager toolManager) {
         setLayout(new FlowLayout(FlowLayout.LEFT));
         this.setPreferredSize(new Dimension(210, 200));
 
-        add(new VButton("Align to Grid", new SidebarListener(tileset, editor, this), "ENABLE_GRID"));
-        add(new VButton("Show the Grid", new SidebarListener(tileset, editor, this), "SHOW_GRID"));
+        SidebarListener sidebarListener = new SidebarListener(tileset, editor, this, toolManager);
+
+        add(new VButton("Align to Grid", sidebarListener, "ENABLE_GRID"));
+        add(new VButton("Show the Grid", sidebarListener, "SHOW_GRID"));
 
         gridxPanel = new LabelAndTextPanel("Grid X", "0");
         gridyPanel = new LabelAndTextPanel("Grid Y", "0");
@@ -52,6 +55,8 @@ public class EditorSidebarPanel extends JPanel {
         add(gridWidthPanel);
         add(gridHeightPanel);
 
+        add(new VButton("Anim Select", sidebarListener, "ANIM_SELECT"));
+
         JTextArea infoArea = new JTextArea();
         infoArea.setPreferredSize(new Dimension(180, 200));
         infoArea.setEditable(false);
@@ -62,7 +67,7 @@ public class EditorSidebarPanel extends JPanel {
             "Ctrl-click: Delete region\n" +
             "Ctrl-drag: Delete regions\n" +
             "Alt-click: Rename region\n" +
-            "Shift-drag: Pan camera");
+            "Shift-drag: Pan camera\n");
 
         add(infoArea);
 

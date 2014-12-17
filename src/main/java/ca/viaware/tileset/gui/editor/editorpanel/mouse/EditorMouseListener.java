@@ -19,6 +19,7 @@ along with SwankyTS.  If not, see <http://www.gnu.org/licenses/>.
 package ca.viaware.tileset.gui.editor.editorpanel.mouse;
 
 import ca.viaware.tileset.gui.editor.editorpanel.ActionExecutor;
+import ca.viaware.tileset.gui.editor.editorpanel.tool.ToolManager;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -26,13 +27,18 @@ import java.awt.event.MouseListener;
 public class EditorMouseListener implements MouseListener {
 
     private ActionExecutor actionExecutor;
+    private ToolManager toolManager;
 
-    public EditorMouseListener(ActionExecutor actionExecutor) {
+    public EditorMouseListener(ActionExecutor actionExecutor, ToolManager toolManager) {
         this.actionExecutor = actionExecutor;
+        this.toolManager = toolManager;
     }
 
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
+        if (toolManager.isActiveTool() && toolManager.getActiveTool().handleClick(mouseEvent, actionExecutor.getRegionAt(mouseEvent.getPoint()))) {
+            return;
+        }
         if ((mouseEvent.getModifiersEx() & MouseEvent.CTRL_DOWN_MASK) == MouseEvent.CTRL_DOWN_MASK) {
             actionExecutor.removeRegionAt(mouseEvent.getPoint());
         } else if ((mouseEvent.getModifiersEx() & MouseEvent.ALT_DOWN_MASK) == MouseEvent.ALT_DOWN_MASK) {

@@ -18,12 +18,12 @@ along with SwankyTS.  If not, see <http://www.gnu.org/licenses/>.
  */
 package ca.viaware.tileset.gui.editor.editorpanel;
 
-import ca.viaware.tileset.gui.editor.editorpanel.ActionExecutor;
 import ca.viaware.tileset.gui.editor.editorpanel.mouse.EditorMouseListener;
 import ca.viaware.tileset.gui.editor.editorpanel.mouse.EditorMouseMotionListener;
 import ca.viaware.tileset.gui.editor.editorpanel.mouse.EditorMouseWheelListener;
 import ca.viaware.tileset.gui.editor.editorpanel.listeners.GraphicsPanelComponentListener;
 import ca.viaware.tileset.gui.editor.editorpanel.render.Viewport;
+import ca.viaware.tileset.gui.editor.editorpanel.tool.ToolManager;
 import ca.viaware.tileset.obj.Tileset;
 import ca.viaware.tileset.gui.editor.editorpanel.mouse.MouseInfo;
 import ca.viaware.tileset.gui.editor.editorpanel.render.Renderer;
@@ -37,6 +37,7 @@ public class EditorGraphicsPanel extends JPanel {
 
     private Renderer renderer;
 
+    private ToolManager toolManager;
     private ActionExecutor actionExecutor;
 
     public EditorGraphicsPanel(Tileset tileset) {
@@ -45,12 +46,14 @@ public class EditorGraphicsPanel extends JPanel {
         MouseInfo mouseInfo = new MouseInfo();
 
         this.renderer = new Renderer(tileset, mouseInfo, viewport, this);
+
+        this.toolManager = new ToolManager(renderer, viewport, mouseInfo, this);
         this.actionExecutor = new ActionExecutor(tileset, mouseInfo, viewport, this);
 
         setBackground(Color.WHITE);
 
-        addMouseListener(new EditorMouseListener(actionExecutor));
-        addMouseMotionListener(new EditorMouseMotionListener(actionExecutor));
+        addMouseListener(new EditorMouseListener(actionExecutor, toolManager));
+        addMouseMotionListener(new EditorMouseMotionListener(actionExecutor, toolManager));
         addMouseWheelListener(new EditorMouseWheelListener(actionExecutor));
         addComponentListener(new GraphicsPanelComponentListener(actionExecutor));
 
@@ -76,6 +79,11 @@ public class EditorGraphicsPanel extends JPanel {
         renderer.renderGrid();
         renderer.renderRegions();
         renderer.renderSelection();
+
+        if (toolManager.isActiveTool()) toolManager.getActiveTool().renderOverlay();
     }
 
+    public ToolManager getToolManager() {
+        return toolManager;
+    }
 }

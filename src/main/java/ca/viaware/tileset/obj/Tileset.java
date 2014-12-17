@@ -18,8 +18,6 @@ along with SwankyTS.  If not, see <http://www.gnu.org/licenses/>.
  */
 package ca.viaware.tileset.obj;
 
-import ca.viaware.tileset.utils.FileUtils;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;

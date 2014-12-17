@@ -98,10 +98,19 @@ public class Renderer {
         g2d.drawRect(rect.x, rect.y, rect.width, rect.height);
     }
 
+    public void fillRect(Rectangle rect) {
+        rect = viewport.originToScreen(rect);
+        g2d.fillRect(rect.x, rect.y, rect.width, rect.height);
+    }
+
     public void renderLine(int x1, int y1, int x2, int y2) {
         Point p1 = viewport.originToScreen(new Point(x1, y1));
         Point p2 = viewport.originToScreen(new Point(x2, y2));
         g2d.drawLine(p1.x, p1.y, p2.x, p2.y);
+    }
+
+    public void setColor(int color) {
+        g2d.setColor(new Color(color));
     }
 
 }

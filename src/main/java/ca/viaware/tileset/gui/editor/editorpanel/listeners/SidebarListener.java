@@ -20,9 +20,9 @@ package ca.viaware.tileset.gui.editor.editorpanel.listeners;
 
 import ca.viaware.tileset.gui.editor.editorpanel.EditorGraphicsPanel;
 import ca.viaware.tileset.gui.editor.editorpanel.EditorSidebarPanel;
+import ca.viaware.tileset.gui.editor.editorpanel.tool.ToolManager;
+import ca.viaware.tileset.gui.editor.editorpanel.tool.tools.AnimNamer;
 import ca.viaware.tileset.obj.Tileset;
-import ca.viaware.tileset.utils.FileUtils;
-import ca.viaware.tileset.utils.Utils;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -32,11 +32,13 @@ public class SidebarListener implements ActionListener {
     private EditorSidebarPanel sidebar;
     private Tileset tileset;
     private EditorGraphicsPanel editor;
+    private ToolManager toolManager;
 
-    public SidebarListener(Tileset tileset, EditorGraphicsPanel editor, EditorSidebarPanel sidebar) {
+    public SidebarListener(Tileset tileset, EditorGraphicsPanel editor, EditorSidebarPanel sidebar, ToolManager toolManager) {
         this.tileset = tileset;
         this.sidebar = sidebar;
         this.editor = editor;
+        this.toolManager = toolManager;
     }
 
     @Override
@@ -50,6 +52,10 @@ public class SidebarListener implements ActionListener {
 
         if (cmd.equals("SHOW_GRID")) {
             tileset.setShowingGrid(!tileset.isShowingGrid());
+        }
+
+        if (cmd.equals("ANIM_SELECT")) {
+            toolManager.startTool(new AnimNamer());
         }
 
         editor.repaint();
