@@ -20,8 +20,8 @@ package ca.viaware.tileset.gui.editor.editorpanel.listeners;
 
 import ca.viaware.tileset.gui.editor.editorpanel.EditorGraphicsPanel;
 import ca.viaware.tileset.gui.editor.editorpanel.EditorSidebarPanel;
-import ca.viaware.tileset.gui.editor.editorpanel.tool1.ToolManager;
-import ca.viaware.tileset.gui.editor.editorpanel.tool1.tools.AnimNamer;
+import ca.viaware.tileset.gui.editor.editorpanel.tool.ToolManager;
+import ca.viaware.tileset.gui.editor.editorpanel.tool.tools.AnimNamer;
 import ca.viaware.tileset.obj.Tileset;
 
 import java.awt.event.ActionEvent;

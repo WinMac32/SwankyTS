@@ -16,7 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with SwankyTS.  If not, see <http://www.gnu.org/licenses/>.
  */
-package ca.viaware.tileset.gui.editor.editorpanel.tool1;
+package ca.viaware.tileset.gui.editor.editorpanel.tool;
 
 import ca.viaware.tileset.gui.editor.editorpanel.EditorGraphicsPanel;
 import ca.viaware.tileset.gui.editor.editorpanel.mouse.MouseInfo;

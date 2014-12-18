@@ -22,7 +22,7 @@ import ca.viaware.api.gui.base.VButton;
 import ca.viaware.api.utils.StringUtils;
 import ca.viaware.tileset.gui.LabelAndTextPanel;
 import ca.viaware.tileset.gui.editor.editorpanel.listeners.SidebarListener;
-import ca.viaware.tileset.gui.editor.editorpanel.tool1.ToolManager;
+import ca.viaware.tileset.gui.editor.editorpanel.tool.ToolManager;
 import ca.viaware.tileset.obj.Tileset;
 
 import javax.swing.*;

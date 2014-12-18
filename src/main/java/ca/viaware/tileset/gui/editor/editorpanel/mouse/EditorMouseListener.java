@@ -19,7 +19,7 @@ along with SwankyTS.  If not, see <http://www.gnu.org/licenses/>.
 package ca.viaware.tileset.gui.editor.editorpanel.mouse;
 
 import ca.viaware.tileset.gui.editor.editorpanel.ActionExecutor;
-import ca.viaware.tileset.gui.editor.editorpanel.tool1.ToolManager;
+import ca.viaware.tileset.gui.editor.editorpanel.tool.ToolManager;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
