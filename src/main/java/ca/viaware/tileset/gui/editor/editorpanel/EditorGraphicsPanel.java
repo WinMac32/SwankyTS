@@ -23,7 +23,7 @@ import ca.viaware.tileset.gui.editor.editorpanel.mouse.EditorMouseMotionListener
 import ca.viaware.tileset.gui.editor.editorpanel.mouse.EditorMouseWheelListener;
 import ca.viaware.tileset.gui.editor.editorpanel.listeners.GraphicsPanelComponentListener;
 import ca.viaware.tileset.gui.editor.editorpanel.render.Viewport;
-import ca.viaware.tileset.gui.editor.editorpanel.tool.ToolManager;
+import ca.viaware.tileset.gui.editor.editorpanel.tool1.ToolManager;
 import ca.viaware.tileset.obj.Tileset;
 import ca.viaware.tileset.gui.editor.editorpanel.mouse.MouseInfo;
 import ca.viaware.tileset.gui.editor.editorpanel.render.Renderer;

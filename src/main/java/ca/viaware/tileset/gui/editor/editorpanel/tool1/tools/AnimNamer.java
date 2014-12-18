@@ -16,9 +16,9 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with SwankyTS.  If not, see <http://www.gnu.org/licenses/>.
  */
-package ca.viaware.tileset.gui.editor.editorpanel.tool.tools;
+package ca.viaware.tileset.gui.editor.editorpanel.tool1.tools;
 
-import ca.viaware.tileset.gui.editor.editorpanel.tool.Tool;
+import ca.viaware.tileset.gui.editor.editorpanel.tool1.Tool;
 import ca.viaware.tileset.obj.Region;
 
 import java.awt.event.MouseEvent;
