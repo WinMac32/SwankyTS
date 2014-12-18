@@ -109,8 +109,16 @@ public class Renderer {
         g2d.drawLine(p1.x, p1.y, p2.x, p2.y);
     }
 
-    public void setColor(int color) {
-        g2d.setColor(new Color(color));
+    public void setColor(Color color) {
+        g2d.setColor(color);
+    }
+
+    public void renderText(String text, int x, int y, boolean scale) {
+        int fSize = g2d.getFont().getSize();
+        if (scale) g2d.setFont(g2d.getFont().deriveFont((float)(fSize * viewport.heightScaleRatio())));
+        Point point = viewport.originToScreen(new Point(x, y));
+        g2d.drawString(text, point.x, point.y);
+        g2d.setFont(g2d.getFont().deriveFont((float)fSize));
     }
 
 }

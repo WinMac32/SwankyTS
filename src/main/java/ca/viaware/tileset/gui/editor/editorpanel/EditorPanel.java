@@ -18,6 +18,7 @@ along with SwankyTS.  If not, see <http://www.gnu.org/licenses/>.
  */
 package ca.viaware.tileset.gui.editor.editorpanel;
 
+import ca.viaware.tileset.gui.editor.editorpanel.tool.ToolManager;
 import ca.viaware.tileset.obj.Tileset;
 
 import javax.swing.*;
@@ -39,10 +40,19 @@ public class EditorPanel extends JPanel {
         setLayout(new BorderLayout());
         add(sidebarPanel, BorderLayout.LINE_START);
         add(editor, BorderLayout.CENTER);
+
+        setFocusable(true);
+        setRequestFocusEnabled(true);
+
+
     }
 
     public Tileset getTileset() {
         return tileset;
+    }
+
+    public ToolManager getToolManager() {
+        return editor.getToolManager();
     }
 
 }

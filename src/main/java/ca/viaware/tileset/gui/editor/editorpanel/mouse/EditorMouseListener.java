@@ -48,6 +48,9 @@ public class EditorMouseListener implements MouseListener {
 
     @Override
     public void mousePressed(MouseEvent mouseEvent) {
+        if (toolManager.isActiveTool() && toolManager.getActiveTool().handleDown(mouseEvent, actionExecutor.getRegionAt(mouseEvent.getPoint()))) {
+            return;
+        }
         if ((mouseEvent.getModifiersEx() & (MouseEvent.CTRL_DOWN_MASK | MouseEvent.SHIFT_DOWN_MASK)) == 0) {
             actionExecutor.startRegion(mouseEvent.getPoint());
         }
@@ -55,6 +58,9 @@ public class EditorMouseListener implements MouseListener {
 
     @Override
     public void mouseReleased(MouseEvent mouseEvent) {
+        if (toolManager.isActiveTool() && toolManager.getActiveTool().handleUp(mouseEvent, actionExecutor.getRegionAt(mouseEvent.getPoint()))) {
+            return;
+        }
         actionExecutor.finishRegion(mouseEvent.getPoint());
         actionExecutor.finishDraggingViewport();
     }

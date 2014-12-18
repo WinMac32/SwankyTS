@@ -26,6 +26,7 @@ import ca.viaware.tileset.obj.Tileset;
 import javax.swing.*;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 
 @SuppressWarnings("serial")
 public class EditorWindow extends JFrame {
@@ -55,6 +56,26 @@ public class EditorWindow extends JFrame {
 
         this.editorTabs = new JTabbedPane();
         getContentPane().add(editorTabs, BorderLayout.CENTER);
+
+        //Screw it. Bypass swing key events so we get keys regardless of focus
+        //Tools always get priority.
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
+            @Override
+            public boolean dispatchKeyEvent(KeyEvent e) {
+                if (getSelectedEditor() != null && getSelectedEditor().getToolManager().isActiveTool()) {
+                    if (e.getID() == KeyEvent.KEY_RELEASED) {
+                        return getSelectedEditor().getToolManager().getActiveTool().handleKeyUp(e);
+                    }
+                    if (e.getID() == KeyEvent.KEY_PRESSED) {
+                        return getSelectedEditor().getToolManager().getActiveTool().handleKeyDown(e);
+                    }
+                    if (e.getID() == KeyEvent.KEY_TYPED) {
+                        return getSelectedEditor().getToolManager().getActiveTool().handleKeyType(e);
+                    }
+                }
+                return false;
+            }
+        });
     }
 
     public void addEditor(String name, Tileset tileset) {

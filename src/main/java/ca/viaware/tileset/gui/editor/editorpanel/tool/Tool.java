@@ -24,6 +24,7 @@ import ca.viaware.tileset.gui.editor.editorpanel.render.Renderer;
 import ca.viaware.tileset.gui.editor.editorpanel.render.Viewport;
 import ca.viaware.tileset.obj.Region;
 
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
 public abstract class Tool {
@@ -42,6 +43,11 @@ public abstract class Tool {
 
     public abstract void activate();
     public abstract void destroy();
+    public abstract boolean handleKeyType(KeyEvent event);
+    public abstract boolean handleKeyDown(KeyEvent event);
+    public abstract boolean handleKeyUp(KeyEvent event);
+    public abstract boolean handleDown(MouseEvent event, Region region);
+    public abstract boolean handleUp(MouseEvent event, Region region);
     public abstract boolean handleClick(MouseEvent event, Region region);
     public abstract boolean handleDrag(MouseEvent event, Region region);
     public abstract void renderOverlay();

@@ -52,6 +52,8 @@ public class EditorGraphicsPanel extends JPanel {
 
         setBackground(Color.WHITE);
 
+        setFocusable(true);
+
         addMouseListener(new EditorMouseListener(actionExecutor, toolManager));
         addMouseMotionListener(new EditorMouseMotionListener(actionExecutor, toolManager));
         addMouseWheelListener(new EditorMouseWheelListener(actionExecutor));
