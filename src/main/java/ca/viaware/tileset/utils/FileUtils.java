@@ -65,7 +65,7 @@ public class FileUtils {
         if (tileset.getDataFile() != null) {
             FileManager.getInterfaceForExtension(tileset.getDataFile().getName().split("[.]")[1]).runExport(tileset, tileset.getImageFile().getName().split("[.]")[0]);
         } else {
-            JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
+            JFileChooser chooser = new JFileChooser(tileset.getImageFile().getParentFile().getAbsolutePath());
             for (FileInterface fileInterface : FileManager.getInterfaces()) {
                 chooser.addChoosableFileFilter(new FileNameExtensionFilter(fileInterface.getName(), fileInterface.getExtension()));
             }
@@ -75,7 +75,7 @@ public class FileUtils {
                 Log.info("Selected file %0 of type %1", dataFile.getName(), chooser.getFileFilter().getDescription());
                 FileInterface fileInterface = FileManager.getInterface(chooser.getFileFilter().getDescription());
                 if (fileInterface != null) {
-                    fileInterface.runExport(tileset, dataFile.getName());
+                    fileInterface.runExport(tileset, dataFile.getAbsolutePath());
                 } else {
                     Log.error("Unknown file type!");
                 }
