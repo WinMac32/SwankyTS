@@ -19,61 +19,54 @@ public class JSONFile extends FileInterface {
 
     @Override
     protected void handleExport(Tileset tileset, OutputStream out) throws IOException {
-        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out));
-        JSONWriter jsonWriter = new JSONWriter(writer);
-        jsonWriter.object().key("frames").object();
-        writer.newLine();
+        JSONObject frames = new JSONObject();
+
         for (Region region : tileset.getRegions()) {
-            jsonWriter.key(region.getName()).object();
-            writer.newLine();
+            JSONObject regionObject = new JSONObject();
 
-            jsonWriter.key("frame").object();
-                jsonWriter.key("x").value(region.getX());
-                jsonWriter.key("y").value(region.getY());
-                jsonWriter.key("w").value(region.getWidth());
-                jsonWriter.key("h").value(region.getHeight());
-            jsonWriter.endObject();
-            writer.newLine();
+            JSONObject frame = new JSONObject();
+            frame.put("x", region.getX());
+            frame.put("y", region.getY());
+            frame.put("w", region.getWidth());
+            frame.put("h", region.getHeight());
+            regionObject.put("frame", frame);
 
-            jsonWriter.key("rotated").value(false);
-            writer.newLine();
+            JSONObject spriteSourceSize = new JSONObject();
+            spriteSourceSize.put("x", 0);
+            spriteSourceSize.put("y", 0);
+            spriteSourceSize.put("w", region.getWidth());
+            spriteSourceSize.put("h", region.getHeight());
+            regionObject.put("spriteSourceSize", spriteSourceSize);
 
-            jsonWriter.key("trimmed").value(false);
-            writer.newLine();
+            JSONObject sourceSize = new JSONObject();
+            sourceSize.put("w", region.getWidth());
+            sourceSize.put("h", region.getHeight());
+            regionObject.put("sourceSize", sourceSize);
 
-            jsonWriter.key("spriteSourceSize").object();
-                jsonWriter.key("x").value(0);
-                jsonWriter.key("y").value(0);
-                jsonWriter.key("w").value(region.getWidth());
-                jsonWriter.key("h").value(region.getHeight());
-            jsonWriter.endObject();
-            writer.newLine();
+            regionObject.put("rotated", false);
+            regionObject.put("trimmed", false);
 
-            jsonWriter.key("sourceSize").object();
-                jsonWriter.key("w").value(region.getWidth());
-                jsonWriter.key("h").value(region.getHeight());
-            jsonWriter.endObject();
-            writer.newLine();
-
-            jsonWriter.endObject();
-            writer.newLine();
+            frames.put(region.getName(), regionObject);
         }
-        jsonWriter.endObject();
-        writer.newLine();
 
-        jsonWriter.key("meta").object();
-            jsonWriter.key("app").value("SwankyTS");
-            jsonWriter.key("version").value("0.0.1");
-            jsonWriter.key("image").value(tileset.getImageFile().getName());
-            jsonWriter.key("format").value("RGBA8888"); //TODO this actually needs to be representative of image fmt
-            jsonWriter.key("size").object();
-                jsonWriter.key("w").value(tileset.getImage().getWidth());
-                jsonWriter.key("h").value(tileset.getImage().getHeight());
-            jsonWriter.endObject();
-            jsonWriter.key("scale").value("1");
-        jsonWriter.endObject();
+        JSONObject meta = new JSONObject();
+        meta.put("app", "SwankyTS");
+        meta.put("version", "0.0.2");
+        meta.put("image", tileset.getImageFile().getName());
+        meta.put("format", "RGBA8888");
+        JSONObject format = new JSONObject();
+        format.put("w", tileset.getImage().getWidth());
+        format.put("h", tileset.getImage().getHeight());
+        meta.put("size", format);
+        meta.put("scale", "1");
 
-        jsonWriter.endObject();
+        JSONObject root = new JSONObject();
+        root.put("frames", frames);
+        root.put("meta", meta);
+        String json = root.toString(4);
+
+        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out));
+        writer.write(json);
         writer.flush();
     }
 
