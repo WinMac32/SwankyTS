@@ -54,10 +54,10 @@ public class JSONFile extends FileInterface {
         meta.put("version", "0.0.2");
         meta.put("image", tileset.getImageFile().getName());
         meta.put("format", "RGBA8888");
-        JSONObject format = new JSONObject();
-        format.put("w", tileset.getImage().getWidth());
-        format.put("h", tileset.getImage().getHeight());
-        meta.put("size", format);
+        JSONObject size = new JSONObject();
+        size.put("w", tileset.getImage().getWidth());
+        size.put("h", tileset.getImage().getHeight());
+        meta.put("size", size);
         meta.put("scale", "1");
 
         JSONObject root = new JSONObject();
