@@ -71,7 +71,7 @@ public class Renderer {
     }
 
     public void renderRegions() {
-        g2d.setPaint(Color.WHITE);
+        g2d.setPaint(Color.RED);
         for (Region region : tileset.getRegions()) {
             renderRect(region);
             Rectangle transReg = viewport.originToScreen(region);
