@@ -90,7 +90,7 @@ public class JSONFile extends FileInterface {
         }
 
         JSONObject meta = json.getJSONObject("meta");
-        String image = meta.getString("image");
+        String image = source.getParentFile().getAbsolutePath() + "/" + meta.getString("image");
 
         return new Tileset(source, new File(image), regions);
     }
