@@ -63,11 +63,11 @@ public class FileUtils {
 
     public static void saveTileset(Tileset tileset) {
         if (tileset.getDataFile() != null) {
-            FileManager.getInterfaceForExtension(tileset.getDataFile().getName().split("[.]")[1]).runExport(tileset, tileset.getImageFile().getName().split("[.]")[0]);
+            FileManager.getInterfaceForExtension(tileset.getDataFile().getName().split("[.]")[1]).runExport(tileset, tileset.getDataFile().getAbsolutePath());
         } else {
             JFileChooser chooser = new JFileChooser(tileset.getImageFile().getParentFile().getAbsolutePath());
             for (FileInterface fileInterface : FileManager.getInterfaces()) {
-                chooser.addChoosableFileFilter(new FileNameExtensionFilter(fileInterface.getName(), fileInterface.getExtension()));
+                chooser.addChoosableFileFilter(new FileNameExtensionFilter(fileInterface.getName(), fileInterface.getExtensions()));
             }
             chooser.setAcceptAllFileFilterUsed(false);
             if (chooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
@@ -75,7 +75,7 @@ public class FileUtils {
                 Log.info("Selected file %0 of type %1", dataFile.getName(), chooser.getFileFilter().getDescription());
                 FileInterface fileInterface = FileManager.getInterface(chooser.getFileFilter().getDescription());
                 if (fileInterface != null) {
-                    fileInterface.runExport(tileset, dataFile.getAbsolutePath());
+                    fileInterface.runExport(tileset, dataFile.getAbsolutePath() + "." + fileInterface.getExtensions()[0]);
                 } else {
                     Log.error("Unknown file type!");
                 }

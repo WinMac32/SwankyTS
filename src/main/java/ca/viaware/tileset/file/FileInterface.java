@@ -1,32 +1,31 @@
 package ca.viaware.tileset.file;
 
 import ca.viaware.api.logging.Log;
-import ca.viaware.tileset.obj.Region;
 import ca.viaware.tileset.obj.Tileset;
 
 import java.io.*;
-import java.util.ArrayList;
 
 public abstract class FileInterface {
 
     private String name;
-    private String extension;
+    private String[] extensions;
 
-    protected FileInterface(String name, String extension) {
+    protected FileInterface(String name, String[] extensions) {
         this.name = name;
-        this.extension = extension;
+        this.extensions = extensions;
 
         Log.info("Registered export interface %0", name);
     }
 
     public boolean runExport(Tileset tileset, String outName) {
-        File outFile = new File(outName + "." + extension);
+        File outFile = new File(outName);
 
         try {
             outFile.createNewFile();
             OutputStream out = new FileOutputStream(outFile);
             handleExport(tileset, out);
             out.close();
+            Log.info("Wrote file %0", outFile.getAbsolutePath());
             return true;
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -47,8 +46,8 @@ public abstract class FileInterface {
         return name;
     }
 
-    public String getExtension() {
-        return extension;
+    public String[] getExtensions() {
+        return extensions;
     }
 
 }

@@ -14,7 +14,7 @@ import java.util.Scanner;
 public class JSONFile extends FileInterface {
 
     public JSONFile() {
-        super("JSON", "json");
+        super("JSON", new String[] {"json", "sheet"});
     }
 
     @Override

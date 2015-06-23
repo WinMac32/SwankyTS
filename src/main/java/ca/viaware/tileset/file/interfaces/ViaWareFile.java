@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class ViaWareFile extends FileInterface {
 
     public ViaWareFile() {
-        super("ViaWare", "regions");
+        super("ViaWare", new String[] {"regions"});
     }
 
     @Override
